@@ -1,0 +1,56 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!-- @formatter:off -->
+    <changeSet author="Gatoke" id="1">
+        <sql>
+            CREATE TABLE app_user (
+                id              INT8                        PRIMARY KEY,
+                first_name      VARCHAR(255)                NOT NULL,
+                last_name       VARCHAR(255)                NOT NULL,
+                email           VARCHAR(255),
+                created_at      TIMESTAMP WITH TIME ZONE    NOT NULL
+            );
+
+            CREATE TABLE user_read_model (
+                id                      INT8                        PRIMARY KEY,
+                first_name              VARCHAR(255)                NOT NULL,
+                last_name               VARCHAR(255)                NOT NULL,
+                email                   VARCHAR(255),
+                created_at              TIMESTAMP WITH TIME ZONE    NOT NULL,
+                active_offers_count     INT8                        NOT NULL DEFAULT 0
+            );
+
+            CREATE TABLE offer (
+                id             UUID                        PRIMARY KEY,
+                user_id        INT8                        NOT NULL,
+                title          VARCHAR(255)                NOT NULL,
+                content        TEXT                        NOT NULL,
+                status         VARCHAR(255)                NOT NULL,
+                created_at     TIMESTAMP WITH TIME ZONE    NOT NULL
+            );
+
+            CREATE TABLE offer_read_model (
+                id                  UUID                        PRIMARY KEY,
+                user_id             INT8                        NOT NULL,
+                title               VARCHAR(255)                NOT NULL,
+                content             TEXT                        NOT NULL,
+                status              VARCHAR(255)                NOT NULL,
+                created_at          TIMESTAMP WITH TIME ZONE    NOT NULL,
+                rejected_reason     TEXT
+            );
+
+            CREATE TABLE event (
+                id              UUID                        PRIMARY KEY,
+                type            VARCHAR(255)                NOT NULL,
+                occurred_on     TIMESTAMP WITH TIME ZONE    NOT NULL,
+                payload         TEXT                        NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <!-- @formatter:on -->
+
+</databaseChangeLog>

@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+
+  offers-db:
+    image: postgres:11
+    container_name: offers-db
+    restart: always
+    ports:
+      - 9000:5432
+    environment:
+      POSTGRES_DB: offers-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  postgres: {}

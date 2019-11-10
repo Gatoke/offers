@@ -1,0 +1,52 @@
+package com.github.gatoke.offers.port.adapter.persistence.offer;
+
+import com.github.gatoke.offers.domain.offer.Offer;
+import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
+import com.github.gatoke.offers.domain.shared.Time;
+import lombok.Data;
+
+import javax.persistence.*;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
+@Data
+@Entity
+@Table(name = "offer")
+class PersistableOffer {
+
+    @Id
+    private UUID id;
+
+    private long userId;
+
+    private String title;
+
+    private String content;
+
+    @Enumerated(value = EnumType.STRING)
+    private OfferStatus status;
+
+    private OffsetDateTime createdAt;
+
+    static PersistableOffer of(final Offer offer) {
+        final PersistableOffer persistableOffer = new PersistableOffer();
+        persistableOffer.id = offer.getId();
+        persistableOffer.userId = offer.getUserId();
+        persistableOffer.title = offer.getTitle();
+        persistableOffer.content = offer.getContent();
+        persistableOffer.status = offer.getStatus();
+        persistableOffer.createdAt = offer.getCreatedAt().getValue();
+        return persistableOffer;
+    }
+
+    Offer toDomainObject() {
+        return Offer.builder()
+                    .id(this.id)
+                    .userId(this.userId)
+                    .title(this.title)
+                    .content(this.content)
+                    .status(this.status)
+                    .createdAt(Time.of(this.createdAt))
+                    .build();
+    }
+}
