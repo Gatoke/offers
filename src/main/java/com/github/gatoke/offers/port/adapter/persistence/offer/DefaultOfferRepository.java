@@ -27,17 +27,15 @@ public class DefaultOfferRepository implements OfferRepository {
     @Override
     public Offer findOrFail(final UUID offerId) {
         final Optional<PersistableOffer> offerOptional = repository.findById(offerId);
-        if (offerOptional.isPresent()) {
-            return offerOptional.get().toDomainObject();
-        }
-        throw new OfferNotFoundException(offerId);
+        return offerOptional.map(PersistableOffer::toDomainObject)
+                .orElseThrow(() -> new OfferNotFoundException(offerId));
     }
 
     @Override
     public List<Offer> findOffersCreatedBefore(final OffsetDateTime dateTime) {
         final List<PersistableOffer> persistableOffers = repository.findAllByCreatedAtBefore(dateTime);
         return persistableOffers.stream()
-                                .map(PersistableOffer::toDomainObject)
-                                .collect(Collectors.toList());
+                .map(PersistableOffer::toDomainObject)
+                .collect(Collectors.toList());
     }
 }

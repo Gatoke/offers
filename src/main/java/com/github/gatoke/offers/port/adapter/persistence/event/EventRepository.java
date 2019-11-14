@@ -13,10 +13,10 @@ public class EventRepository {
     private final EventJpaRepository repository;
     private final ObjectMapper objectMapper;
 
-    public void save(final Event event) throws JsonProcessingException {
-        final String payload = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(event);
-        final PersistableEvent persistableEvent = PersistableEvent.of(event.getId(),
-                                                                      event.getType(),
+    public void save(final Event<?> event) throws JsonProcessingException {
+        final String payload = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(event.getPayload());
+        final PersistableEvent persistableEvent = PersistableEvent.of(event.getEventId(),
+                                                                      event.getEventType(),
                                                                       event.getOccurredOn().getValue(),
                                                                       payload);
         repository.save(persistableEvent);

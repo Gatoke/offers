@@ -25,8 +25,9 @@ class OfferFinishedEventHandler {
     @Async
     @EventListener
     public void updateOfferReadModel(final OfferFinishedEvent event) {
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
-        offerReadModel.setStatus(event.getStatus());
+        final OfferFinishedEvent.Payload payload = event.getPayload();
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
+        offerReadModel.setStatus(payload.getStatus());
         offerReadModelRepository.save(offerReadModel);
     }
 }

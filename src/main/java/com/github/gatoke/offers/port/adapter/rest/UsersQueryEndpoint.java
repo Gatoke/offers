@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
-class UserQueryEndpoint {
+class UsersQueryEndpoint {
 
     private final UserReadModelRepository userReadModelRepository;
 
     @GetMapping("/{id}")
-    ResponseEntity get(@PathVariable final String id) {
+    public ResponseEntity<UserReadModel> get(@PathVariable final String id) {
         final UserReadModel userReadModel = userReadModelRepository.findOrThrow(id);
         return ResponseEntity.ok(userReadModel);
     }
 
     @ExceptionHandler
-    ResponseEntity handleUserNotFoundException(final UserNotFoundException ex) {
+    public ResponseEntity<String> handleUserNotFoundException(final UserNotFoundException ex) {
         return ResponseEntity.status(NOT_FOUND).body(ex.getMessage());
     }
 }

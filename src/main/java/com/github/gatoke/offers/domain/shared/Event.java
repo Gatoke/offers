@@ -2,13 +2,14 @@ package com.github.gatoke.offers.domain.shared;
 
 import lombok.Getter;
 
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Getter
-public abstract class Event {
+public abstract class Event<P> {
 
-    protected final UUID id = UUID.randomUUID();
-    protected final String type = this.getClass().getSimpleName();
-    protected final Time occurredOn = Time.now();
+    private final UUID eventId = UUID.randomUUID();
+    private final String eventType = this.getClass().getSimpleName();
+    private final Time occurredOn = Time.now();
+
+    public abstract P getPayload();
 }

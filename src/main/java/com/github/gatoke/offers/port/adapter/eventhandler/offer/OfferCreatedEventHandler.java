@@ -16,6 +16,6 @@ class OfferCreatedEventHandler {
     @Async
     @EventListener
     public void createOfferReadModel(final OfferCreatedEvent event) {
-        offerReadModelRepository.create(event.getOffer());
+        offerReadModelRepository.create(event.getPayload().getOffer());
     }
 }

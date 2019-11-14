@@ -12,7 +12,7 @@ public class UserDomainService {
     private final UserRepository repository;
     private final EventPublisher eventPublisher;
 
-    public long createUser(final long userId, final Name name, final Email email) {
+    public User createUser(final long userId, final Name name, final Email email) {
         if (repository.exists(userId)) {
             throw new UserAlreadyExistsException(userId);
         }
@@ -21,6 +21,6 @@ public class UserDomainService {
         repository.save(user);
 
         user.pickDomainEvents().forEach(eventPublisher::publishEvent);
-        return user.getId();
+        return user;
     }
 }

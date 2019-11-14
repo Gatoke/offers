@@ -22,15 +22,17 @@ class OfferExpiredEventHandler {
     @Async
     @EventListener
     public void updateOfferReadModel(final OfferExpiredEvent event) {
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
-        offerReadModel.setStatus(event.getStatus());
+        final OfferExpiredEvent.Payload payload = event.getPayload();
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
+        offerReadModel.setStatus(payload.getStatus());
         offerReadModelRepository.save(offerReadModel);
     }
 
     @Async
     @EventListener
     public void updateUserReadModel(final OfferExpiredEvent event) {
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
+        final OfferExpiredEvent.Payload payload = event.getPayload();
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
         final UserReadModel userReadModel = userReadModelRepository.findOrThrow(valueOf(offerReadModel.getUserId()));
         userReadModel.decreaseActiveOffersCount();
         userReadModelRepository.save(userReadModel);

@@ -9,9 +9,19 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-public class OfferRejectedEvent extends Event {
+public class OfferRejectedEvent extends Event<OfferRejectedEvent.Payload> {
 
-    private final UUID offerId;
-    private final OfferStatus status;
-    private final String reason;
+    private final Payload payload;
+
+    public OfferRejectedEvent(final UUID offerId, final OfferStatus offerStatus, final String reason) {
+        this.payload = new Payload(offerId, offerStatus, reason);
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class Payload {
+        private final UUID offerId;
+        private final OfferStatus status;
+        private final String reason;
+    }
 }

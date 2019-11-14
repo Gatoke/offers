@@ -17,9 +17,10 @@ class OfferRejectedEventHandler {
     @Async
     @EventListener
     public void updateOfferReadModel(final OfferRejectedEvent event) {
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
-        offerReadModel.setStatus(event.getStatus());
-        offerReadModel.setRejectedReason(event.getReason());
+        final OfferRejectedEvent.Payload payload = event.getPayload();
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
+        offerReadModel.setStatus(payload.getStatus());
+        offerReadModel.setRejectedReason(payload.getReason());
         offerReadModelRepository.save(offerReadModel);
     }
 }

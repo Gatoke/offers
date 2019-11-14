@@ -19,7 +19,7 @@ public class OfferDomainService {
 
     private static final Long OFFER_EXPIRATION_PERIOD = 7L;
 
-    public UUID createOffer(final long userId, final String title, final String content) {
+    public Offer createOffer(final long userId, final String title, final String content) {
         if (userRepository.doesNotExist(userId)) {
             throw new UserNotFoundException(userId);
         }
@@ -27,7 +27,7 @@ public class OfferDomainService {
         final Offer offer = Offer.create(userId, title, content);
         offerRepository.save(offer);
         publishEvents(offer);
-        return offer.getId();
+        return offer;
     }
 
     public void acceptOffer(final UUID offerId) {

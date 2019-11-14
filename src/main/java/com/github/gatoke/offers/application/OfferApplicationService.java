@@ -1,5 +1,7 @@
 package com.github.gatoke.offers.application;
 
+import com.github.gatoke.offers.application.dto.OfferDto;
+import com.github.gatoke.offers.domain.offer.Offer;
 import com.github.gatoke.offers.domain.offer.OfferDomainService;
 import com.github.gatoke.offers.domain.offer.event.OfferAcceptedEvent;
 import com.github.gatoke.offers.domain.offer.event.OfferFinishedEvent;
@@ -16,8 +18,15 @@ public class OfferApplicationService {
 
     private final OfferDomainService offerDomainService;
 
-    public UUID create(final long userId, final String title, final String content) {
-        return offerDomainService.createOffer(userId, title, content);
+    public OfferDto create(final long userId, final String title, final String content) {
+        final Offer offer = offerDomainService.createOffer(userId, title, content);
+        return new OfferDto(
+                offer.getId(),
+                offer.getUserId(),
+                offer.getTitle(),
+                offer.getContent(),
+                offer.getStatus()
+        );
     }
 
     public void accept(final String offerId) {
@@ -36,10 +45,10 @@ public class OfferApplicationService {
     }
 
     public void publishOn(final OfferAcceptedEvent event) {
-        offerDomainService.publishOffer(event.getOfferId());
+        offerDomainService.publishOffer(event.getPayload().getOfferId());
     }
 
     public void finishOn(final OfferFinishedEvent event) {
-        offerDomainService.finishOffer(event.getOfferId());
+        offerDomainService.finishOffer(event.getPayload().getOfferId());
     }
 }

@@ -30,15 +30,17 @@ class OfferAcceptedEventHandler {
     @Async
     @EventListener
     public void updateOfferReadModel(final OfferAcceptedEvent event) {
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
-        offerReadModel.setStatus(event.getStatus());
+        final OfferAcceptedEvent.Payload payload = event.getPayload();
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
+        offerReadModel.setStatus(payload.getStatus());
         offerReadModelRepository.save(offerReadModel);
     }
 
     @Async
     @EventListener
     public void updateUserReadModel(final OfferAcceptedEvent event) {
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
+        final OfferAcceptedEvent.Payload payload = event.getPayload();
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
         final UserReadModel userReadModel = userReadModelRepository.findOrThrow(valueOf(offerReadModel.getUserId()));
         userReadModel.increaseActiveOffersCount();
         userReadModelRepository.save(userReadModel);

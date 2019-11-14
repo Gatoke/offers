@@ -18,7 +18,7 @@ class PersistingEventsHandler {
 
     @EventListener
     @Transactional(propagation = MANDATORY, rollbackFor = JsonProcessingException.class)
-    public void saveEvent(final Event event) throws JsonProcessingException {
+    public void saveEvent(final Event<?> event) throws JsonProcessingException {
         eventRepository.save(event);
     }
 }

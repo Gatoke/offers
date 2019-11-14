@@ -6,8 +6,18 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
-public class UserCreatedEvent extends Event {
+public class UserCreatedEvent extends Event<UserCreatedEvent.Payload> {
 
-    private final User user;
+    private final Payload payload;
+
+    public UserCreatedEvent(User user) {
+        this.payload = new Payload(user);
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class Payload {
+
+        private final User user;
+    }
 }

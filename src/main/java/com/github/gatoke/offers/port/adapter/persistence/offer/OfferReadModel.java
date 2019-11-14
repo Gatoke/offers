@@ -2,7 +2,9 @@ package com.github.gatoke.offers.port.adapter.persistence.offer;
 
 import com.github.gatoke.offers.domain.offer.Offer;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -16,6 +18,7 @@ import static javax.persistence.EnumType.STRING;
 @Data
 @Entity
 @Table(name = "offer_read_model")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OfferReadModel {
 
     @Id

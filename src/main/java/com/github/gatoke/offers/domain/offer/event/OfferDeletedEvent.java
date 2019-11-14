@@ -8,9 +8,18 @@ import lombok.RequiredArgsConstructor;
 import java.util.UUID;
 
 @Getter
-@RequiredArgsConstructor
-public class OfferDeletedEvent extends Event {
+public class OfferDeletedEvent extends Event<OfferDeletedEvent.Payload> {
 
-    private final UUID offerId;
-    private final OfferStatus status;
+    private final Payload payload;
+
+    public OfferDeletedEvent(final UUID offerId, final OfferStatus offerStatus) {
+        this.payload = new Payload(offerId, offerStatus);
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class Payload {
+        private final UUID offerId;
+        private final OfferStatus status;
+    }
 }

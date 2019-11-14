@@ -16,6 +16,6 @@ class UserCreatedEventHandler {
     @Async
     @EventListener
     public void createUserReadModel(final UserCreatedEvent event) {
-        userReadModelRepository.create(event.getUser());
+        userReadModelRepository.createOn(event);
     }
 }

@@ -22,15 +22,17 @@ class OfferDeletedEventHandler {
     @Async
     @EventListener
     public void updateOfferReadModel(final OfferDeletedEvent event) {
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
-        offerReadModel.setStatus(event.getStatus());
+        final OfferDeletedEvent.Payload payload = event.getPayload();
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
+        offerReadModel.setStatus(payload.getStatus());
         offerReadModelRepository.save(offerReadModel);
     }
 
     @Async
     @EventListener
     public void updateUserReadModel(final OfferDeletedEvent event) {
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
+        final OfferDeletedEvent.Payload payload = event.getPayload();
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
         final UserReadModel userReadModel = userReadModelRepository.findOrThrow(valueOf(offerReadModel.getUserId()));
         userReadModel.decreaseActiveOffersCount();
         userReadModelRepository.save(userReadModel);

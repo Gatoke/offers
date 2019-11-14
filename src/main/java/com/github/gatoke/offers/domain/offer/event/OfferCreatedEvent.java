@@ -6,8 +6,17 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
-public class OfferCreatedEvent extends Event {
+public class OfferCreatedEvent extends Event<OfferCreatedEvent.Payload> {
 
-    private final Offer offer;
+    private final Payload payload;
+
+    public OfferCreatedEvent(final Offer offer) {
+        this.payload = new Payload(offer);
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class Payload {
+        private final Offer offer;
+    }
 }

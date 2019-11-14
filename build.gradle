@@ -35,14 +35,13 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
     implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
 
+    // UTILS
+    implementation "org.apache.commons:commons-lang3:${apacheCommonsLangVersion}"
+
     // TEST
     testImplementation "org.spockframework:spock-core:${spockVersion}"
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-}
-
-test {
-    useJUnitPlatform()
 }
