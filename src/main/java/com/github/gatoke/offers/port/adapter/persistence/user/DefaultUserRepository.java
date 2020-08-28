@@ -12,9 +12,10 @@ public class DefaultUserRepository implements UserRepository {
     private final UserJpaRepository repository;
 
     @Override
-    public void save(final User user) {
+    public User save(final User user) {
         final PersistableUser persistableUser = PersistableUser.of(user);
         repository.save(persistableUser);
+        return user;
     }
 
     @Override

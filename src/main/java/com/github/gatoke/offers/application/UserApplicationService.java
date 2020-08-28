@@ -1,10 +1,11 @@
 package com.github.gatoke.offers.application;
 
+import com.github.gatoke.offers.application.command.CreateUserCommand;
 import com.github.gatoke.offers.application.dto.UserDto;
+import com.github.gatoke.offers.domain.shared.EventPublisher;
 import com.github.gatoke.offers.domain.user.User;
-import com.github.gatoke.offers.domain.user.UserDomainService;
-import com.github.gatoke.offers.domain.user.vo.Email;
-import com.github.gatoke.offers.domain.user.vo.Name;
+import com.github.gatoke.offers.domain.user.UserRepository;
+import com.github.gatoke.offers.domain.user.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,12 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserApplicationService {
 
-    private final UserDomainService userDomainService;
+    private final UserRepository repository;
+    private final EventPublisher eventPublisher;
 
-    public UserDto create(final long userId, final String firstName, final String lastName, final String email) {
-        final Name nameVO = Name.of(firstName, lastName);
-        final Email emailVO = Email.of(email);
-        final User user = userDomainService.createUser(userId, nameVO, emailVO);
+    public UserDto createUser(final CreateUserCommand createUserCommand) {
+        if (repository.exists(createUserCommand.getUserId())) {
+            throw new UserAlreadyExistsException(createUserCommand.getUserId());
+        }
+
+        final User user = repository.save(
+                User.create(createUserCommand.getUserId(), createUserCommand.getName(), createUserCommand.getEmail())
+        );
+
+        user.pickDomainEvents().forEach(eventPublisher::publishEvent);
+
         return new UserDto(
                 user.getId(),
                 user.getName().getFirstName(),

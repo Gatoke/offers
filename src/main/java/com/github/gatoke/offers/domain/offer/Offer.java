@@ -38,11 +38,11 @@ public class Offer extends Aggregate {
         registerEvent(new OfferCreatedEvent(this));
     }
 
-    static Offer create(final long userId, final String title, final String content) {
+    public static Offer create(final long userId, final String title, final String content) {
         return new Offer(userId, title, content);
     }
 
-    void accept() {
+    public void accept() {
         if (PENDING != this.status) {
             throw new InvalidOfferStatusStateException(this.id, this.status);
         }
@@ -50,7 +50,7 @@ public class Offer extends Aggregate {
         registerEvent(new OfferAcceptedEvent(this.id, this.status));
     }
 
-    void reject(final String reason) {
+    public void reject(final String reason) {
         if (PENDING != this.status) {
             throw new InvalidOfferStatusStateException(this.id, this.status);
         }
@@ -58,7 +58,7 @@ public class Offer extends Aggregate {
         registerEvent(new OfferRejectedEvent(this.id, this.status, reason));
     }
 
-    void publish() {
+    public void publish() {
         if (REJECTED == this.status) {
             throw new InvalidOfferStatusStateException(this.id, this.status);
         }
@@ -66,17 +66,17 @@ public class Offer extends Aggregate {
         registerEvent(new OfferPublishedEvent(this.id, this.status));
     }
 
-    void finish() {
+    public void finish() {
         this.status = FINISHED;
         registerEvent(new OfferFinishedEvent(this.id, this.status));
     }
 
-    void delete() {
+    public void delete() {
         this.status = DELETED;
         registerEvent(new OfferDeletedEvent(this.id, this.status));
     }
 
-    void expire() {
+    public void expire() {
         this.status = EXPIRED;
         registerEvent(new OfferExpiredEvent(this.id, this.status));
     }

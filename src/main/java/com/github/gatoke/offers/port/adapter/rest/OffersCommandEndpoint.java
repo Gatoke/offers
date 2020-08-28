@@ -1,6 +1,10 @@
 package com.github.gatoke.offers.port.adapter.rest;
 
 import com.github.gatoke.offers.application.OfferApplicationService;
+import com.github.gatoke.offers.application.command.AcceptOfferCommand;
+import com.github.gatoke.offers.application.command.CreateOfferCommand;
+import com.github.gatoke.offers.application.command.DeleteOfferCommand;
+import com.github.gatoke.offers.application.command.RejectOfferCommand;
 import com.github.gatoke.offers.application.dto.OfferDto;
 import com.github.gatoke.offers.domain.offer.exception.InvalidOfferStatusStateException;
 import com.github.gatoke.offers.domain.offer.exception.OfferNotFoundException;
@@ -8,24 +12,14 @@ import com.github.gatoke.offers.domain.user.exception.UserNotFoundException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.ResponseEntity.noContent;
-import static org.springframework.http.ResponseEntity.ok;
-import static org.springframework.http.ResponseEntity.status;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("/offers")
@@ -36,26 +30,25 @@ class OffersCommandEndpoint {
 
     @PostMapping
     public ResponseEntity<OfferDto> create(@RequestBody @Valid final CreateOfferRequest request) {
-        final OfferDto offer = offerApplicationService.create(request.userId, request.title, request.content);
+        final OfferDto offer = offerApplicationService.createOffer(request.toCommand());
         return status(CREATED).body(offer);
     }
 
-    @PostMapping("/accept/{id}")
-    public ResponseEntity<Object> accept(@PathVariable final String id) {
-        offerApplicationService.accept(id);
+    @PostMapping("/accept/{offerId}")
+    public ResponseEntity<Object> accept(@PathVariable final String offerId) {
+        offerApplicationService.accept(AcceptOfferCommand.of(offerId));
         return ok().build();
     }
 
-    @PostMapping("/reject/{id}")
-    public ResponseEntity<Object> reject(@PathVariable final String id,
-                                         @RequestBody @Valid final RejectOfferRequest request) {
-        offerApplicationService.reject(id, request.reason);
+    @PostMapping("/reject")
+    public ResponseEntity<Object> reject(@RequestBody @Valid final RejectOfferRequest request) {
+        offerApplicationService.reject(request.toCommand());
         return ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable final String id) {
-        offerApplicationService.delete(id);
+    @DeleteMapping("/{offerId}")
+    public ResponseEntity<Object> delete(@PathVariable final String offerId) {
+        offerApplicationService.delete(DeleteOfferCommand.of(offerId));
         return noContent().build();
     }
 
@@ -85,11 +78,20 @@ class OffersCommandEndpoint {
 
         @NotBlank
         private String content;
+
+        CreateOfferCommand toCommand() {
+            return new CreateOfferCommand(userId, title, content);
+        }
     }
 
     @Data
     private static class RejectOfferRequest {
 
+        private String offerId;
         private String reason;
+
+        RejectOfferCommand toCommand() {
+            return new RejectOfferCommand(offerId, reason);
+        }
     }
 }

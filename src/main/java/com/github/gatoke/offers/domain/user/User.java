@@ -8,7 +8,6 @@ import com.github.gatoke.offers.domain.user.vo.Name;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -30,7 +29,7 @@ public class User extends Aggregate {
         registerEvent(new UserCreatedEvent(this));
     }
 
-    static User create(final long id, final Name name, final Email email) {
+    public static User create(final long id, final Name name, final Email email) {
         return new User(id, name, email);
     }
 }

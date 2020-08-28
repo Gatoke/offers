@@ -19,9 +19,10 @@ public class DefaultOfferRepository implements OfferRepository {
     private final OfferJpaRepository repository;
 
     @Override
-    public void save(final Offer offer) {
+    public Offer save(final Offer offer) {
         final PersistableOffer persistableOffer = PersistableOffer.of(offer);
         repository.save(persistableOffer);
+        return offer;
     }
 
     @Override

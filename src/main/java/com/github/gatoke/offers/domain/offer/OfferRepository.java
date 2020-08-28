@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface OfferRepository {
 
-    void save(Offer offer);
+    Offer save(Offer offer);
 
     Offer findOrFail(UUID offerId);
 
