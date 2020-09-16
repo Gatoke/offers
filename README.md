@@ -25,6 +25,7 @@ Architecture:
 > - scheduler lock (for multiple instances of the application)
 > - provide better Name validation: special characters (, . : " ' -), whitespaces before and after
 > - dockerfile & docker-compose for the application 
+> - event bus connected to database (retriggering events)
 
 ----
 
