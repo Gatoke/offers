@@ -36,7 +36,7 @@ class OffersCommandEndpoint {
 
     @PostMapping("/accept/{offerId}")
     public ResponseEntity<Object> accept(@PathVariable final String offerId) {
-        offerApplicationService.accept(AcceptOfferCommand.of(offerId));
+        offerApplicationService.accept(new AcceptOfferCommand(offerId));
         return ok().build();
     }
 
@@ -48,7 +48,7 @@ class OffersCommandEndpoint {
 
     @DeleteMapping("/{offerId}")
     public ResponseEntity<Object> delete(@PathVariable final String offerId) {
-        offerApplicationService.delete(DeleteOfferCommand.of(offerId));
+        offerApplicationService.delete(new DeleteOfferCommand(offerId));
         return noContent().build();
     }
 
