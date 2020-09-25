@@ -29,11 +29,6 @@ public class UserApplicationService {
 
         user.pickDomainEvents().forEach(eventPublisher::publishEvent);
 
-        return new UserDto(
-                user.getId(),
-                user.getName().getFirstName(),
-                user.getName().getLastName(),
-                user.getEmail().getValue()
-        );
+        return UserDto.of(user);
     }
 }

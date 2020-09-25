@@ -38,13 +38,7 @@ public class OfferApplicationService {
         );
         offer.pickDomainEvents().forEach(eventPublisher::publishEvent);
 
-        return new OfferDto(
-                offer.getId(),
-                offer.getUserId(),
-                offer.getTitle(),
-                offer.getContent(),
-                offer.getStatus()
-        );
+        return OfferDto.of(offer);
     }
 
     public void accept(final AcceptOfferCommand acceptOfferCommand) {
