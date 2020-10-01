@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "event")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class PersistableEvent {
+public class PersistableEvent {
 
     @Id
     private UUID id;
