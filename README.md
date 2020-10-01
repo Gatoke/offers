@@ -26,7 +26,6 @@ Architecture:
 > - provide better Name validation: special characters (, . : " ' -), whitespaces before and after
 > - dockerfile & docker-compose for the application 
 > - event bus connected to database (retriggering events)
-> - expireOutdatedOffers() - create transaction on every iteration in loop to prevent rollback on all offers 
 
 ----
 
