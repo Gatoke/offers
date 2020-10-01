@@ -14,7 +14,7 @@ public class FindOutdatedOffersService {
     private static final Long OFFER_EXPIRATION_PERIOD = 7L;
 
     public List<Offer> find() {
-        return offerRepository.findOffersCreatedBefore(
+        return offerRepository.findPublishedOffersCreatedBefore(
                 now().minusDays(OFFER_EXPIRATION_PERIOD)
         );
     }

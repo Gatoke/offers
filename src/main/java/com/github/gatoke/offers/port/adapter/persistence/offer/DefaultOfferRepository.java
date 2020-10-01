@@ -10,7 +10,9 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import static com.github.gatoke.offers.domain.offer.vo.OfferStatus.PUBLISHED;
+import static java.util.stream.Collectors.toList;
 
 @Repository
 @RequiredArgsConstructor
@@ -33,10 +35,11 @@ public class DefaultOfferRepository implements OfferRepository {
     }
 
     @Override
-    public List<Offer> findOffersCreatedBefore(final OffsetDateTime dateTime) {
-        final List<PersistableOffer> persistableOffers = repository.findAllByCreatedAtBefore(dateTime);
+    public List<Offer> findPublishedOffersCreatedBefore(final OffsetDateTime dateTime) {
+        final List<PersistableOffer> persistableOffers =
+                repository.findAllByCreatedAtBeforeAndStatusEquals(dateTime, PUBLISHED);
         return persistableOffers.stream()
                 .map(PersistableOffer::toDomainObject)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }
