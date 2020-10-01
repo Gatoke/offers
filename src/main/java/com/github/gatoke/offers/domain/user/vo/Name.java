@@ -20,11 +20,13 @@ public class Name {
 
     public static Name of(final String firstName, final String lastName) {
         if (firstName == null || withoutWhitespaces(firstName).length() < MINIMUM_LENGTH) {
-            throw new InvalidNameException(format("First name: %s is invalid.", firstName));
+            throw new InvalidNameException(format("First name: %s should have minimum length of: %d non-whitespace characters.",
+                    firstName, MINIMUM_LENGTH));
         }
 
         if (lastName == null || withoutWhitespaces(lastName).length() < MINIMUM_LENGTH) {
-            throw new InvalidNameException(format("Last name: %s is invalid.", lastName));
+            throw new InvalidNameException(format("Last name: %s should have minimum length of: %d non-whitespace characters.",
+                    lastName, MINIMUM_LENGTH));
         }
 
         return new Name(withoutWhitespaces(firstName), withoutWhitespaces(lastName));

@@ -2,6 +2,7 @@ package com.github.gatoke.offers.domain.user.vo
 
 import com.github.gatoke.offers.domain.user.exception.InvalidEmailException
 import spock.lang.Specification
+
 import java.lang.Void as Should
 
 class EmailTest extends Specification {
@@ -35,5 +36,16 @@ class EmailTest extends Specification {
         'karol2.pl'        | InvalidEmailException
         ''                 | InvalidEmailException
         null               | InvalidEmailException
+    }
+
+    Should 'test equals and hashCode'() {
+        when:
+        def e1 = Email.of('jason@gmail.com')
+        def e2 = Email.of('jason@gmail.com')
+
+        then:
+        e1 == e2 && e2 == e1
+        and:
+        e1.hashCode() == e2.hashCode()
     }
 }
