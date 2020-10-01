@@ -10,5 +10,5 @@ public interface OfferRepository {
 
     Offer findOrFail(UUID offerId);
 
-    List<Offer> findOffersCreatedBefore(OffsetDateTime dateTime);
+    List<Offer> findPublishedOffersCreatedBefore(OffsetDateTime dateTime);
 }

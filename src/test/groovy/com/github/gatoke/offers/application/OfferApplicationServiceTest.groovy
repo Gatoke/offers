@@ -1,7 +1,6 @@
 package com.github.gatoke.offers.application
 
 import com.github.gatoke.offers.application.command.CreateOfferCommand
-import com.github.gatoke.offers.domain.offer.FindOutdatedOffersService
 import com.github.gatoke.offers.domain.offer.Offer
 import com.github.gatoke.offers.domain.offer.OfferRepository
 import com.github.gatoke.offers.domain.offer.event.OfferCreatedEvent
@@ -19,8 +18,7 @@ class OfferApplicationServiceTest extends Specification {
         def offerRepository = new TestOfferRepository()
         def userRepository = Mock(UserRepository)
         def eventPublisher = Mock(EventPublisher)
-        def findOutdatedOffersService = Mock(FindOutdatedOffersService)
-        def service = new OfferApplicationService(offerRepository, userRepository, eventPublisher, findOutdatedOffersService)
+        def service = new OfferApplicationService(offerRepository, userRepository, eventPublisher)
         and:
         userRepository.doesNotExist(1234L) >> false
 
@@ -38,8 +36,7 @@ class OfferApplicationServiceTest extends Specification {
         def offerRepository = Mock(OfferRepository)
         def userRepository = Mock(UserRepository)
         def eventPublisher = Mock(EventPublisher)
-        def findOutdatedOffersService = Mock(FindOutdatedOffersService)
-        def service = new OfferApplicationService(offerRepository, userRepository, eventPublisher, findOutdatedOffersService)
+        def service = new OfferApplicationService(offerRepository, userRepository, eventPublisher)
         and:
         userRepository.doesNotExist(1234L) >> true
 
@@ -72,7 +69,7 @@ class OfferApplicationServiceTest extends Specification {
         }
 
         @Override
-        List<Offer> findOffersCreatedBefore(OffsetDateTime dateTime) {
+        List<Offer> findPublishedOffersCreatedBefore(OffsetDateTime dateTime) {
             return null
         }
     }

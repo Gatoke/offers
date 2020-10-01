@@ -77,6 +77,9 @@ public class Offer extends Aggregate {
     }
 
     public void expire() {
+        if (PUBLISHED != this.status) {
+            throw new InvalidOfferStatusStateException(this.id, this.status);
+        }
         this.status = EXPIRED;
         registerEvent(new OfferExpiredEvent(this.id, this.status));
     }
