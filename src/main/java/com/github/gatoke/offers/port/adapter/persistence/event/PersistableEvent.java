@@ -1,6 +1,7 @@
 package com.github.gatoke.offers.port.adapter.persistence.event;
 
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,11 +11,16 @@ import javax.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PROTECTED;
+
 @Getter
 @Entity
 @Table(name = "event")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PersistableEvent {
+@Builder
+@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
+class PersistableEvent {
 
     @Id
     private UUID id;
@@ -25,15 +31,4 @@ public class PersistableEvent {
 
     private String payload;
 
-    static PersistableEvent of(final UUID id,
-                               final String eventType,
-                               final OffsetDateTime occurredOn,
-                               final String payload) {
-        final PersistableEvent persistableEvent = new PersistableEvent();
-        persistableEvent.id = id;
-        persistableEvent.type = eventType;
-        persistableEvent.occurredOn = occurredOn;
-        persistableEvent.payload = payload;
-        return persistableEvent;
-    }
 }

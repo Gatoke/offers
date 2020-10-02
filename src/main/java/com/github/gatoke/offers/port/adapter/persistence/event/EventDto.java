@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.port.adapter.rest.events;
+package com.github.gatoke.offers.port.adapter.persistence.event;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @Builder
-class EventDto {
+public class EventDto {
 
     private final UUID id;
     private final String type;
