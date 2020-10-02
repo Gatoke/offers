@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.port.adapter.rest;
+package com.github.gatoke.offers.port.adapter.rest.offers;
 
 import com.github.gatoke.offers.application.OfferApplicationService;
 import com.github.gatoke.offers.application.command.AcceptOfferCommand;

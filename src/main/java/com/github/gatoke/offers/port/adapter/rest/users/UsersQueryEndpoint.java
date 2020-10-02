@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.port.adapter.rest;
+package com.github.gatoke.offers.port.adapter.rest.users;
 
 import com.github.gatoke.offers.domain.user.exception.UserNotFoundException;
 import com.github.gatoke.offers.port.adapter.persistence.user.UserReadModel;

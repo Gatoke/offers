@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.port.adapter.rest;
+package com.github.gatoke.offers.port.adapter.rest.users;
 
 import com.github.gatoke.offers.application.UserApplicationService;
 import com.github.gatoke.offers.application.command.RegisterUserCommand;
