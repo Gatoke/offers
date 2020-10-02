@@ -1,7 +1,6 @@
 package com.github.gatoke.offers.port.adapter.persistence.user;
 
-import com.github.gatoke.offers.domain.user.User;
-import com.github.gatoke.offers.domain.user.event.UserCreatedEvent;
+import com.github.gatoke.offers.domain.user.event.UserRegisteredEvent;
 import com.github.gatoke.offers.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,8 +13,8 @@ public class UserReadModelRepository {
 
     private final UserReadModelJpaRepository repository;
 
-    public void createOn(final UserCreatedEvent userCreatedEvent) {
-        final UserReadModel userReadModel = UserReadModel.of(userCreatedEvent.getPayload().getUser());
+    public void createOn(final UserRegisteredEvent userRegisteredEvent) {
+        final UserReadModel userReadModel = UserReadModel.of(userRegisteredEvent.getPayload().getUser());
         repository.save(userReadModel);
     }
 

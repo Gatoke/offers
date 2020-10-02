@@ -26,7 +26,7 @@ class PersistableUser {
 
     private String email;
 
-    private OffsetDateTime createdAt;
+    private OffsetDateTime registeredAt;
 
     static PersistableUser of(final User user) {
         final PersistableUser persistableUser = new PersistableUser();
@@ -34,16 +34,16 @@ class PersistableUser {
         persistableUser.firstName = user.getName().getFirstName();
         persistableUser.lastName = user.getName().getLastName();
         persistableUser.email = user.getEmail().getValue();
-        persistableUser.createdAt = user.getCreatedAt().getValue();
+        persistableUser.registeredAt = user.getRegisteredAt().getValue();
         return persistableUser;
     }
 
     User toDomainObject() {
         return User.builder()
-                   .id(this.id)
-                   .name(Name.of(this.firstName, this.lastName))
-                   .email(Email.of(this.email))
-                   .createdAt(Time.of(createdAt))
-                   .build();
+                .id(this.id)
+                .name(Name.of(this.firstName, this.lastName))
+                .email(Email.of(this.email))
+                .registeredAt(Time.of(registeredAt))
+                .build();
     }
 }

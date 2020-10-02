@@ -2,7 +2,7 @@
 
 Functionality:
 ----
-- creating Users + querying Users
+- registering Users + querying Users
 - creating Offers + accept,reject,delete operations + querying Offers
 - REST Events endpoint
 

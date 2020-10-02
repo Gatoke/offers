@@ -1,6 +1,6 @@
 package com.github.gatoke.offers.application;
 
-import com.github.gatoke.offers.application.command.CreateUserCommand;
+import com.github.gatoke.offers.application.command.RegisterUserCommand;
 import com.github.gatoke.offers.application.dto.UserDto;
 import com.github.gatoke.offers.domain.shared.EventPublisher;
 import com.github.gatoke.offers.domain.user.User;
@@ -18,13 +18,13 @@ public class UserApplicationService {
     private final UserRepository repository;
     private final EventPublisher eventPublisher;
 
-    public UserDto createUser(final CreateUserCommand createUserCommand) {
-        if (repository.exists(createUserCommand.getUserId())) {
-            throw new UserAlreadyExistsException(createUserCommand.getUserId());
+    public UserDto registerUser(final RegisterUserCommand registerUserCommand) {
+        if (repository.exists(registerUserCommand.getUserId())) {
+            throw new UserAlreadyExistsException(registerUserCommand.getUserId());
         }
 
         final User user = repository.save(
-                User.create(createUserCommand.getUserId(), createUserCommand.getName(), createUserCommand.getEmail())
+                User.register(registerUserCommand.getUserId(), registerUserCommand.getName(), registerUserCommand.getEmail())
         );
 
         user.pickDomainEvents().forEach(eventPublisher::publishEvent);

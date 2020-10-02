@@ -12,7 +12,7 @@
                 first_name      VARCHAR(255)                NOT NULL,
                 last_name       VARCHAR(255)                NOT NULL,
                 email           VARCHAR(255),
-                created_at      TIMESTAMP WITH TIME ZONE    NOT NULL
+                registered_at   TIMESTAMP WITH TIME ZONE    NOT NULL
             );
 
             CREATE TABLE user_read_model (
@@ -20,7 +20,7 @@
                 first_name              VARCHAR(255)                NOT NULL,
                 last_name               VARCHAR(255)                NOT NULL,
                 email                   VARCHAR(255),
-                created_at              TIMESTAMP WITH TIME ZONE    NOT NULL,
+                registered_at           TIMESTAMP WITH TIME ZONE    NOT NULL,
                 active_offers_count     INT8                        NOT NULL DEFAULT 0
             );
 

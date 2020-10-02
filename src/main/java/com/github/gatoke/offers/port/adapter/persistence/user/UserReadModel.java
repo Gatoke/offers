@@ -22,7 +22,7 @@ public class UserReadModel {
 
     private String email;
 
-    private OffsetDateTime createdAt;
+    private OffsetDateTime registeredAt;
 
     private long activeOffersCount;
 
@@ -32,7 +32,7 @@ public class UserReadModel {
         userReadModel.firstName = user.getName().getFirstName();
         userReadModel.lastName = user.getName().getLastName();
         userReadModel.email = user.getEmail().getValue();
-        userReadModel.createdAt = user.getCreatedAt().getValue();
+        userReadModel.registeredAt = user.getRegisteredAt().getValue();
         userReadModel.activeOffersCount = 0;
         return userReadModel;
     }

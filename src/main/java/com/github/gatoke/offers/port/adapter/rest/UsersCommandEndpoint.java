@@ -1,7 +1,7 @@
 package com.github.gatoke.offers.port.adapter.rest;
 
 import com.github.gatoke.offers.application.UserApplicationService;
-import com.github.gatoke.offers.application.command.CreateUserCommand;
+import com.github.gatoke.offers.application.command.RegisterUserCommand;
 import com.github.gatoke.offers.application.dto.UserDto;
 import com.github.gatoke.offers.domain.user.exception.InvalidEmailException;
 import com.github.gatoke.offers.domain.user.exception.InvalidNameException;
@@ -27,8 +27,8 @@ class UsersCommandEndpoint {
     private final UserApplicationService userApplicationService;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody @Valid final CreateUserRequest request) {
-        final UserDto user = userApplicationService.createUser(request.toCommand());
+    public ResponseEntity<UserDto> registerUser(@RequestBody @Valid final RegisterUserRequest request) {
+        final UserDto user = userApplicationService.registerUser(request.toCommand());
         return status(CREATED).body(user);
     }
 
@@ -48,7 +48,7 @@ class UsersCommandEndpoint {
     }
 
     @Data
-    private static class CreateUserRequest {
+    private static class RegisterUserRequest {
 
         @NotNull
         private Long userId;
@@ -62,8 +62,8 @@ class UsersCommandEndpoint {
         @NotBlank
         private String email;
 
-        CreateUserCommand toCommand() {
-            return new CreateUserCommand(userId, firstName, lastName, email);
+        RegisterUserCommand toCommand() {
+            return new RegisterUserCommand(userId, firstName, lastName, email);
         }
     }
 }
