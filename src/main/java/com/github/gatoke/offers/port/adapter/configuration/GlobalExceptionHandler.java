@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.status;
 
 @RestControllerAdvice
@@ -65,7 +64,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<String> handleUserAlreadyExistsException(final UserAlreadyExistsException ex) {
-        return status(BAD_REQUEST).body(ex.getMessage());
+        return status(CONFLICT).body(ex.getMessage());
     }
 
     @Getter
