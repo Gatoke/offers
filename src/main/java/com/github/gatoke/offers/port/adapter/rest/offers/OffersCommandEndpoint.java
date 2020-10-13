@@ -87,7 +87,9 @@ class OffersCommandEndpoint {
     @Data
     private static class RejectOfferRequest {
 
+        @NotBlank
         private String offerId;
+
         private String reason;
 
         RejectOfferCommand toCommand() {
