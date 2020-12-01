@@ -29,7 +29,7 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok"
 
     // DATABASE
-    runtimeOnly "org.postgresql:postgresql"
+    runtimeOnly "com.h2database:h2"
 
     // SWAGGER
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
