@@ -43,7 +43,7 @@
                 rejected_reason     TEXT
             );
 
-            CREATE TABLE event (
+            CREATE TABLE event_log (
                 id              UUID                        PRIMARY KEY,
                 type            VARCHAR(255)                NOT NULL,
                 occurred_on     TIMESTAMP WITH TIME ZONE    NOT NULL,
@@ -53,4 +53,23 @@
     </changeSet>
     <!-- @formatter:on -->
 
+
+    <changeSet id="2" author="gatoke">
+        <!-- @formatter:off -->
+        <sql>
+            CREATE TABLE event_handler (
+                id                  UUID                        PRIMARY KEY,
+                event_id            UUID                        NOT NULL REFERENCES event_log(id),
+                bean_name           VARCHAR(255)                NOT NULL,
+                method_name         VARCHAR(255)                NOT NULL,
+                status              VARCHAR(255)                NOT NULL,
+                last_attempt        TIMESTAMP WITH TIME ZONE,
+                next_attempt        TIMESTAMP WITH TIME ZONE,
+                attempts            INT8                        NOT NULL DEFAULT 0,
+                delay_seconds       BIGINT                      NOT NULL DEFAULT 0,
+                reason              TEXT
+            );
+        </sql>
+        <!-- @formatter:on -->
+    </changeSet>
 </databaseChangeLog>

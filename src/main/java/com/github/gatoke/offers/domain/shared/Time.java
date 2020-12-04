@@ -1,8 +1,9 @@
 package com.github.gatoke.offers.domain.shared;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
@@ -12,12 +13,13 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @EqualsAndHashCode
-@RequiredArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
 public class Time {
 
     private static final Clock CLOCK = systemUTC();
 
-    private final OffsetDateTime value;
+    private OffsetDateTime value;
 
     public static Time now() {
         return new Time(OffsetDateTime.now(CLOCK));

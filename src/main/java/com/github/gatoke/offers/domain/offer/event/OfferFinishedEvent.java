@@ -1,25 +1,41 @@
 package com.github.gatoke.offers.domain.offer.event;
 
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
-import com.github.gatoke.offers.domain.shared.Event;
+import com.github.gatoke.offers.domain.shared.DomainEvent;
+import com.github.gatoke.offers.domain.shared.EventType;
+import com.github.gatoke.offers.domain.shared.Time;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Getter
-public class OfferFinishedEvent extends Event<OfferFinishedEvent.Payload> {
+import static com.github.gatoke.offers.domain.shared.EventType.OFFER_FINISHED;
 
-    private final Payload payload;
+@Getter
+@EqualsAndHashCode
+@NoArgsConstructor
+public class OfferFinishedEvent implements DomainEvent<OfferFinishedEvent.Payload> {
+
+    private final EventType type = OFFER_FINISHED;
+
+    private UUID id;
+    private Time occurredOn;
+    private Payload payload;
 
     public OfferFinishedEvent(final UUID offerId, final OfferStatus offerStatus) {
+        this.id = UUID.randomUUID();
+        this.occurredOn = Time.now();
         this.payload = new Payload(offerId, offerStatus);
     }
 
     @Getter
-    @RequiredArgsConstructor
+    @EqualsAndHashCode
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Payload {
-        private final UUID offerId;
-        private final OfferStatus status;
+        private UUID offerId;
+        private OfferStatus status;
     }
 }

@@ -8,11 +8,13 @@ import com.github.gatoke.offers.domain.user.vo.Name;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @Builder
+@NoArgsConstructor(access = PRIVATE)
 @AllArgsConstructor(access = PRIVATE)
 public class User extends Aggregate {
 

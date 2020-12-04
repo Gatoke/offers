@@ -7,14 +7,14 @@ import static java.util.Collections.unmodifiableList;
 
 public abstract class Aggregate {
 
-    private List<Event<?>> domainEvents = new ArrayList<>();
+    private List<DomainEvent<?>> domainEvents = new ArrayList<>();
 
-    protected void registerEvent(final Event<?> domainEvent) {
+    protected void registerEvent(final DomainEvent<?> domainEvent) {
         domainEvents.add(domainEvent);
     }
 
-    public List<Event<?>> pickDomainEvents() {
-        final List<Event<?>> eventsToReturn = unmodifiableList(domainEvents);
+    public List<DomainEvent<?>> pickDomainEvents() {
+        final List<DomainEvent<?>> eventsToReturn = unmodifiableList(domainEvents);
         domainEvents = new ArrayList<>();
         return eventsToReturn;
     }

@@ -28,7 +28,7 @@ class OfferApplicationServiceTest extends Specification {
         )
 
         then: "OfferCreatedEvent is published"
-        1 * eventPublisher.publishEvent(_ as OfferCreatedEvent)
+        1 * eventPublisher.publish(_ as OfferCreatedEvent)
     }
 
     Void "not create offer when user does not exist"() {
@@ -50,7 +50,7 @@ class OfferApplicationServiceTest extends Specification {
         and: "Offer is not saved to the repository"
         0 * offerRepository.save(_)
         and: "OfferCreatedEvent is not published"
-        0 * eventPublisher.publishEvent(_ as OfferCreatedEvent)
+        0 * eventPublisher.publish(_ as OfferCreatedEvent)
     }
 
     private class TestOfferRepository implements OfferRepository {

@@ -14,7 +14,7 @@ public class UserReadModelRepository {
     private final UserReadModelJpaRepository repository;
 
     public void createOn(final UserRegisteredEvent userRegisteredEvent) {
-        final UserReadModel userReadModel = UserReadModel.of(userRegisteredEvent.getPayload().getUser());
+        final UserReadModel userReadModel = UserReadModel.of(userRegisteredEvent.getPayload());
         repository.save(userReadModel);
     }
 

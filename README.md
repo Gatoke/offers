@@ -5,6 +5,7 @@ Functionality:
 - registering Users + querying Users
 - creating Offers + accept,reject,delete operations + querying Offers
 - REST Events endpoint
+- Store and forward event publisher + retriggering failed events on specific handlers
 
 Architecture:
 ----
@@ -26,7 +27,8 @@ Architecture:
 > - scheduler lock (for multiple instances of the application)
 > - provide better Name validation: special characters (, . : " ' -), whitespaces before and after
 > - dockerfile & docker-compose for the application 
-> - event bus connected to database (retriggering events)
+> - admin panel for event processor / manual retrigger / delete
+> - run all failed events on startup
 
 ----
 

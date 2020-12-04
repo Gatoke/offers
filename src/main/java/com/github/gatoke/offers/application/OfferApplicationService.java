@@ -32,7 +32,7 @@ public class OfferApplicationService {
         final Offer offer = offerRepository.save(
                 Offer.create(createOfferCommand.getUserId(), createOfferCommand.getTitle(), createOfferCommand.getContent())
         );
-        offer.pickDomainEvents().forEach(eventPublisher::publishEvent);
+        offer.pickDomainEvents().forEach(eventPublisher::publish);
 
         return OfferDto.of(offer);
     }
@@ -42,7 +42,7 @@ public class OfferApplicationService {
 
         offer.accept();
         offerRepository.save(offer);
-        offer.pickDomainEvents().forEach(eventPublisher::publishEvent);
+        offer.pickDomainEvents().forEach(eventPublisher::publish);
     }
 
     public void reject(final RejectOfferCommand rejectOfferCommand) {
@@ -50,7 +50,7 @@ public class OfferApplicationService {
 
         offer.reject(rejectOfferCommand.getReason());
         offerRepository.save(offer);
-        offer.pickDomainEvents().forEach(eventPublisher::publishEvent);
+        offer.pickDomainEvents().forEach(eventPublisher::publish);
     }
 
     public void delete(final DeleteOfferCommand deleteOfferCommand) {
@@ -58,7 +58,7 @@ public class OfferApplicationService {
 
         offer.delete();
         offerRepository.save(offer);
-        offer.pickDomainEvents().forEach(eventPublisher::publishEvent);
+        offer.pickDomainEvents().forEach(eventPublisher::publish);
     }
 
     public void publishOn(final OfferAcceptedEvent event) {
@@ -66,7 +66,7 @@ public class OfferApplicationService {
 
         offer.publish();
         offerRepository.save(offer);
-        offer.pickDomainEvents().forEach(eventPublisher::publishEvent);
+        offer.pickDomainEvents().forEach(eventPublisher::publish);
     }
 
     public void finishOn(final OfferFinishedEvent event) {
@@ -74,12 +74,12 @@ public class OfferApplicationService {
 
         offer.finish();
         offerRepository.save(offer);
-        offer.pickDomainEvents().forEach(eventPublisher::publishEvent);
+        offer.pickDomainEvents().forEach(eventPublisher::publish);
     }
 
     public void expire(final Offer offer) {
         offer.expire();
         offerRepository.save(offer);
-        offer.pickDomainEvents().forEach(eventPublisher::publishEvent);
+        offer.pickDomainEvents().forEach(eventPublisher::publish);
     }
 }

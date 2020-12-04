@@ -1,22 +1,24 @@
 package com.github.gatoke.offers.domain.user.vo;
 
 import com.github.gatoke.offers.domain.user.exception.InvalidNameException;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import static java.lang.String.format;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @EqualsAndHashCode
-@RequiredArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
 public class Name {
 
     private static final int MINIMUM_LENGTH = 3;
 
-    private final String firstName;
-    private final String lastName;
+    private String firstName;
+    private String lastName;
 
     public static Name of(final String firstName, final String lastName) {
         if (firstName == null || withoutWhitespaces(firstName).length() < MINIMUM_LENGTH) {

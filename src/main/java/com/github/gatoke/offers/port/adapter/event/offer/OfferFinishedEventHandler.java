@@ -1,12 +1,11 @@
-package com.github.gatoke.offers.port.adapter.eventhandler.offer;
+package com.github.gatoke.offers.port.adapter.event.offer;
 
 import com.github.gatoke.offers.application.OfferApplicationService;
 import com.github.gatoke.offers.domain.offer.event.OfferFinishedEvent;
+import com.github.gatoke.offers.port.adapter.event.DomainEventHandler;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModel;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModelRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,14 +15,12 @@ class OfferFinishedEventHandler {
     private final OfferApplicationService offerApplicationService;
     private final OfferReadModelRepository offerReadModelRepository;
 
-    @Async
-    @EventListener
+    @DomainEventHandler
     public void finishOffer(final OfferFinishedEvent event) {
         offerApplicationService.finishOn(event);
     }
 
-    @Async
-    @EventListener
+    @DomainEventHandler
     public void updateOfferReadModel(final OfferFinishedEvent event) {
         final OfferFinishedEvent.Payload payload = event.getPayload();
         final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());

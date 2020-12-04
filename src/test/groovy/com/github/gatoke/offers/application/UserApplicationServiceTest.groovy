@@ -24,7 +24,7 @@ class UserApplicationServiceTest extends Specification {
         )
 
         then: "UserRegisteredEvent is published"
-        1 * eventPublisherMock.publishEvent(_ as UserRegisteredEvent)
+        1 * eventPublisherMock.publish(_ as UserRegisteredEvent)
     }
 
     Void "fail creating user when already exists"() {
@@ -45,7 +45,7 @@ class UserApplicationServiceTest extends Specification {
         and: "User is not saved to the repository"
         0 * userRepositoryMock.save(_)
         and: "UserRegisteredEvent is not published"
-        0 * eventPublisherMock.publishEvent(_ as UserRegisteredEvent)
+        0 * eventPublisherMock.publish(_ as UserRegisteredEvent)
     }
 
     private class TestUserRepository implements UserRepository {

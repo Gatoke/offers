@@ -1,10 +1,9 @@
-package com.github.gatoke.offers.port.adapter.eventhandler.offer;
+package com.github.gatoke.offers.port.adapter.event.offer;
 
 import com.github.gatoke.offers.domain.offer.event.OfferCreatedEvent;
+import com.github.gatoke.offers.port.adapter.event.DomainEventHandler;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModelRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,9 +12,8 @@ class OfferCreatedEventHandler {
 
     private final OfferReadModelRepository offerReadModelRepository;
 
-    @Async
-    @EventListener
+    @DomainEventHandler
     public void createOfferReadModel(final OfferCreatedEvent event) {
-        offerReadModelRepository.create(event.getPayload().getOffer());
+        offerReadModelRepository.create(event.getPayload());
     }
 }
