@@ -1,40 +1,44 @@
-package com.github.gatoke.offers.port.adapter.eventhandler.offer;
+package com.github.gatoke.offers.port.adapter.event.offer;
 
-import com.github.gatoke.offers.domain.offer.event.OfferDeletedEvent;
+import com.github.gatoke.offers.application.OfferApplicationService;
+import com.github.gatoke.offers.domain.offer.event.OfferAcceptedEvent;
+import com.github.gatoke.offers.port.adapter.event.DomainEventHandler;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModel;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModelRepository;
 import com.github.gatoke.offers.port.adapter.persistence.user.UserReadModel;
 import com.github.gatoke.offers.port.adapter.persistence.user.UserReadModelRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import static java.lang.String.valueOf;
 
 @Component
 @RequiredArgsConstructor
-class OfferDeletedEventHandler {
+class OfferAcceptedEventHandler {
 
+    private final OfferApplicationService offerApplicationService;
     private final OfferReadModelRepository offerReadModelRepository;
     private final UserReadModelRepository userReadModelRepository;
 
-    @Async
-    @EventListener
-    public void updateOfferReadModel(final OfferDeletedEvent event) {
-        final OfferDeletedEvent.Payload payload = event.getPayload();
+    @DomainEventHandler
+    public void publishOffer(final OfferAcceptedEvent event) {
+        offerApplicationService.publishOn(event);
+    }
+
+    @DomainEventHandler
+    public void updateOfferReadModel(final OfferAcceptedEvent event) {
+        final OfferAcceptedEvent.Payload payload = event.getPayload();
         final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
         offerReadModel.setStatus(payload.getStatus());
         offerReadModelRepository.save(offerReadModel);
     }
 
-    @Async
-    @EventListener
-    public void updateUserReadModel(final OfferDeletedEvent event) {
-        final OfferDeletedEvent.Payload payload = event.getPayload();
+    @DomainEventHandler
+    public void updateUserReadModel(final OfferAcceptedEvent event) {
+        final OfferAcceptedEvent.Payload payload = event.getPayload();
         final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
         final UserReadModel userReadModel = userReadModelRepository.findOrThrow(valueOf(offerReadModel.getUserId()));
-        userReadModel.decreaseActiveOffersCount();
+        userReadModel.increaseActiveOffersCount();
         userReadModelRepository.save(userReadModel);
     }
 }

@@ -1,21 +1,21 @@
 package com.github.gatoke.offers.domain.user.vo;
 
 import com.github.gatoke.offers.domain.user.exception.InvalidEmailException;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-import javax.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
 
 import static java.util.regex.Pattern.matches;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @EqualsAndHashCode
-@RequiredArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
 public class Email {
 
-    private final String value;
+    private String value;
 
     /**
      * E-mail regex pattern.

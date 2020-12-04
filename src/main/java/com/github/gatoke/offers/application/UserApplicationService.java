@@ -22,12 +22,10 @@ public class UserApplicationService {
         if (repository.exists(registerUserCommand.getUserId())) {
             throw new UserAlreadyExistsException(registerUserCommand.getUserId());
         }
-
         final User user = repository.save(
                 User.register(registerUserCommand.getUserId(), registerUserCommand.getName(), registerUserCommand.getEmail())
         );
-
-        user.pickDomainEvents().forEach(eventPublisher::publishEvent);
+        user.pickDomainEvents().forEach(eventPublisher::publish);
 
         return UserDto.of(user);
     }

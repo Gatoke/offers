@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.port.adapter.configuration;
+package com.github.gatoke.offers.infrastructure;
 
 import com.google.common.base.Predicates;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -22,9 +22,9 @@ class SwaggerConfiguration {
     @Bean
     Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-                                                      .apis(RequestHandlerSelectors.any())
-                                                      .paths(PathSelectors.any())
-                                                      .paths(Predicates.not(IGNORED_PATHS::test))
-                                                      .build();
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .paths(Predicates.not(IGNORED_PATHS::test))
+                .build();
     }
 }

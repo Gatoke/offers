@@ -1,13 +1,12 @@
-package com.github.gatoke.offers.port.adapter.eventhandler.offer;
+package com.github.gatoke.offers.port.adapter.event.offer;
 
 import com.github.gatoke.offers.domain.offer.event.OfferExpiredEvent;
+import com.github.gatoke.offers.port.adapter.event.DomainEventHandler;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModel;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModelRepository;
 import com.github.gatoke.offers.port.adapter.persistence.user.UserReadModel;
 import com.github.gatoke.offers.port.adapter.persistence.user.UserReadModelRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import static java.lang.String.valueOf;
@@ -19,8 +18,7 @@ class OfferExpiredEventHandler {
     private final OfferReadModelRepository offerReadModelRepository;
     private final UserReadModelRepository userReadModelRepository;
 
-    @Async
-    @EventListener
+    @DomainEventHandler
     public void updateOfferReadModel(final OfferExpiredEvent event) {
         final OfferExpiredEvent.Payload payload = event.getPayload();
         final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
@@ -28,8 +26,7 @@ class OfferExpiredEventHandler {
         offerReadModelRepository.save(offerReadModel);
     }
 
-    @Async
-    @EventListener
+    @DomainEventHandler
     public void updateUserReadModel(final OfferExpiredEvent event) {
         final OfferExpiredEvent.Payload payload = event.getPayload();
         final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());

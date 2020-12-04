@@ -1,7 +1,7 @@
 package com.github.gatoke.offers.port.adapter.rest.events;
 
 import com.github.gatoke.offers.port.adapter.persistence.event.EventDto;
-import com.github.gatoke.offers.port.adapter.persistence.event.EventRepository;
+import com.github.gatoke.offers.port.adapter.persistence.event.EventLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +16,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 class EventsEndpoint {
 
-    private final EventRepository eventRepository;
+    private final EventLogRepository eventLogRepository;
 
     @GetMapping
     List<EventDto> getEvents(@RequestParam(required = false) final UUID after) {
         if (after == null) {
-            return eventRepository.getPageFromBeginning();
+            return eventLogRepository.getPageFromBeginning();
         }
-        return eventRepository.getPageAfterId(after);
+        return eventLogRepository.getPageAfterId(after);
     }
 }
