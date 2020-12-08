@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.port.adapter.configuration;
+package com.github.gatoke.offers.port.adapter.rest;
 
 import com.github.gatoke.offers.domain.offer.exception.InvalidOfferStatusStateException;
 import com.github.gatoke.offers.domain.offer.exception.OfferNotFoundException;

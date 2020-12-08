@@ -24,11 +24,11 @@ Architecture:
 
 > TODO:
 > - security (user role / administrator role)
-> - scheduler lock (for multiple instances of the application)
 > - provide better Name validation: special characters (, . : " ' -), whitespaces before and after
 > - dockerfile & docker-compose for the application 
 > - admin panel for event processor / manual retrigger / delete
 > - run all failed events on startup
+> - separate thread pools for scheduled infrastructure/domain tasks 
 
 ----
 

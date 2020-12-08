@@ -68,6 +68,7 @@ class EventHandler {
 
     void success() {
         this.status = HandlerStatus.SUCCESS;
+        this.nextAttempt = null;
     }
 
     void holdOn(final String reason) {

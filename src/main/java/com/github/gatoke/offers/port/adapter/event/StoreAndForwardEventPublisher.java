@@ -6,6 +6,7 @@ import com.github.gatoke.offers.infrastructure.eventprocessor.EventProcessor;
 import com.github.gatoke.offers.port.adapter.persistence.event.EventLog;
 import com.github.gatoke.offers.port.adapter.persistence.event.EventLogRepository;
 import lombok.RequiredArgsConstructor;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +27,14 @@ class StoreAndForwardEventPublisher implements EventPublisher {
         eventProcessor.register(savedEvent);
     }
 
-    @Scheduled(fixedDelayString = "1000")
+    @Scheduled(fixedDelayString = "PT1S")
+    @SchedulerLock(name = "processPendingEventsScheduler", lockAtMostFor = "5M")
     public void forward() {
         eventProcessor.processPendingEvents();
     }
 
     @Scheduled(cron = "0 1 1 * * *", zone = "UTC")
+    @SchedulerLock(name = "cleanSucceedEventsScheduler", lockAtMostFor = "60M")
     public void clean() {
         eventProcessor.cleanSucceedEvents();
     }
