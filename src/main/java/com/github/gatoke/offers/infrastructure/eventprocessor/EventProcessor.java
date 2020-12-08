@@ -22,8 +22,7 @@ import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public
-class EventProcessor {
+public class EventProcessor {
 
     private final EventMapper eventMapper;
     private final EventHandlerRepository repository;
