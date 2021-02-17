@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+
+  offers:
+    image: registry.hub.docker.com/gatoke/offers:0.0.1-SNAPSHOT
+    container_name: offers
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - offers-db
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://offers-db:5432/offers
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  offers-db:
+    image: postgres:11
+    container_name: offers-db
+    restart: always
+    volumes:
+      - offers-db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: offers
+
+volumes:
+  offers-db-data:
+    driver: local
