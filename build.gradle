@@ -2,14 +2,14 @@ plugins {
     id 'org.springframework.boot' version '2.2.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'com.google.cloud.tools.jib' version '2.7.1'
-    id 'net.researchgate.release' version '2.8.1'
     id 'com.palantir.git-version' version '0.12.3'
     id 'java'
     id 'groovy'
 }
 
+apply from: './gradle/docker.gradle'
+
 group = 'com.github.gatoke'
-//version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
@@ -54,5 +54,3 @@ dependencies {
     }
     testImplementation("com.tngtech.archunit:archunit:${archUnitVersion}")
 }
-
-jib.to.image = "gatoke/${rootProject.name}:${gitVersion()}"
