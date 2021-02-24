@@ -1,4 +1,7 @@
 #!/bin/bash
+# If current commit is untagged - tag it.
+# Also check previous commits if they are tagged - if not - tag them.
+# The script is dependent on `increment_version.sh`.
 
 readonly CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 readonly CURRENT_TAG=$(git tag --points-at HEAD)
@@ -37,6 +40,8 @@ function tag_untagged_commits() {
   # print commits in reverse order - from oldest to newest
   echo "Incrementing from last tag: ${lastTag}"
 
+  # Current tag from which the increment will be done. The value is changed through time in the loop below.
+  # e.g. currentTag(1.0.0) -> currentTag(1.0.1) -> currentTag(1.0.2) -> no more commits = done = the newest tag is 1.0.2
   local currentTag="${lastTag}"
   for commitHash in "${reversed_untagged_commits[@]}"; do
     local commitMessage
@@ -52,6 +57,7 @@ function tag_untagged_commits() {
 
     if [[ "${CURRENT_BRANCH}" != "master" ]]; then
       # Add suffix -sha1 (cut by 33 characters so only 7 characters from commit hash are added to the tag
+      # e.g. 1.0.2-547d554
       currentTag+="-${commitHash:: -33}"
     fi
 
