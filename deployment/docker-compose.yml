@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   offers:
-    image: registry.hub.docker.com/gatoke/offers:0.0.1-SNAPSHOT
+    image: registry.hub.docker.com/gatoke/offers:v1.0.4
     container_name: offers
     restart: always
     ports:
