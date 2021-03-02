@@ -2,7 +2,7 @@ package com.github.gatoke.offers.port.adapter.event;
 
 import com.github.gatoke.offers.domain.shared.DomainEvent;
 import com.github.gatoke.offers.domain.shared.EventPublisher;
-import com.github.gatoke.offers.infrastructure.eventprocessor.EventProcessor;
+import com.github.gatoke.offers.infrastructure.eventbus.EventBus;
 import com.github.gatoke.offers.port.adapter.persistence.event.EventLog;
 import com.github.gatoke.offers.port.adapter.persistence.event.EventLogRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,24 +18,24 @@ import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 class StoreAndForwardEventPublisher implements EventPublisher {
 
     private final EventLogRepository eventLogRepository;
-    private final EventProcessor eventProcessor;
+    private final EventBus eventBus;
 
     @Override
     @Transactional(propagation = MANDATORY)
-    public void publish(final DomainEvent event) {
+    public void publish(final DomainEvent<?> event) {
         final EventLog savedEvent = eventLogRepository.save(event);
-        eventProcessor.register(savedEvent);
+        eventBus.register(savedEvent);
     }
 
     @Scheduled(fixedDelayString = "PT1S")
     @SchedulerLock(name = "processPendingEventsScheduler", lockAtMostFor = "5M")
     public void forward() {
-        eventProcessor.processPendingEvents();
+        eventBus.processPendingEvents();
     }
 
     @Scheduled(cron = "0 1 1 * * *", zone = "UTC")
     @SchedulerLock(name = "cleanSucceedEventsScheduler", lockAtMostFor = "60M")
     public void clean() {
-        eventProcessor.cleanSucceedEvents();
+        eventBus.cleanSucceedEvents();
     }
 }

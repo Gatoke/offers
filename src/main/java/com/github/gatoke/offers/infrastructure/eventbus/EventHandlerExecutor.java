@@ -1,56 +1,31 @@
-package com.github.gatoke.offers.infrastructure.eventprocessor;
+package com.github.gatoke.offers.infrastructure.eventbus;
 
 import com.github.gatoke.offers.domain.shared.DomainEvent;
-import com.github.gatoke.offers.domain.shared.EventType;
-import com.github.gatoke.offers.port.adapter.persistence.event.EventLog;
+import com.github.gatoke.offers.infrastructure.eventbus.model.EventHandlerProcess;
 import com.github.gatoke.offers.port.adapter.persistence.event.EventMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 import static org.springframework.aop.support.AopUtils.getTargetClass;
-import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
-@Service
 @Slf4j
+@Component
 @RequiredArgsConstructor
-public class EventProcessor {
+class EventHandlerExecutor {
 
     private final EventMapper eventMapper;
-    private final EventHandlerRepository repository;
-    private final EventHandlersResolver eventHandlersResolver;
     private final ApplicationContext context;
 
-    @Transactional(propagation = MANDATORY)
-    public void register(final EventLog eventLog) {
-        final EventType eventType = eventLog.getType();
-        final List<EventHandler> eventHandlers = eventHandlersResolver.resolveBeanAndMethod(eventType)
-                .stream()
-                .map(beanAndMethod -> new EventHandler(eventLog, beanAndMethod.getFirst(), beanAndMethod.getSecond()))
-                .collect(toList());
-        repository.save(eventHandlers);
-    }
-
-    @Transactional
-    public void processPendingEvents() {
-        repository.getHandlersForProcessing()
-                .forEach(this::process);
-    }
-
-    @Transactional
-    public void cleanSucceedEvents() {
-        repository.removeSucceedHandlers();
-    }
-
-    private void process(final EventHandler handler) {
+    @Transactional(propagation = Propagation.NESTED)
+    void execute(final EventHandlerProcess handler) {
         try {
             handler.begin();
 
@@ -63,7 +38,7 @@ public class EventProcessor {
                     handler.getEvent().getType(),
                     handler.getEvent().getId(),
                     handler.getBeanName(), handler.getMethodName());
-            handler.holdOn(format("No such handler: %s # %s", handler.getBeanName(), handler.getMethodName()));
+            handler.hold(format("No such handler: %s # %s", handler.getBeanName(), handler.getMethodName()));
         } catch (final Exception ex) {
             log.warn("Processing event of type: {} and id: {} failed. Reason: {}",
                     handler.getEvent().getType(),

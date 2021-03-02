@@ -29,7 +29,7 @@
                 user_id        INT8                        NOT NULL,
                 title          VARCHAR(255)                NOT NULL,
                 content        TEXT                        NOT NULL,
-                status         VARCHAR(255)                NOT NULL,
+                status         VARCHAR(100)                NOT NULL,
                 created_at     TIMESTAMP WITH TIME ZONE    NOT NULL
             );
 
@@ -38,14 +38,14 @@
                 user_id             INT8                        NOT NULL,
                 title               VARCHAR(255)                NOT NULL,
                 content             TEXT                        NOT NULL,
-                status              VARCHAR(255)                NOT NULL,
+                status              VARCHAR(100)                NOT NULL,
                 created_at          TIMESTAMP WITH TIME ZONE    NOT NULL,
                 rejected_reason     TEXT
             );
 
             CREATE TABLE event_log (
                 id              UUID                        PRIMARY KEY,
-                type            VARCHAR(255)                NOT NULL,
+                type            VARCHAR(50)                 NOT NULL,
                 occurred_on     TIMESTAMP WITH TIME ZONE    NOT NULL,
                 payload         TEXT                        NOT NULL
             );
@@ -56,17 +56,17 @@
     <changeSet id="event_handler" author="gatoke">
         <!-- @formatter:off -->
         <sql>
-            CREATE TABLE event_handler (
+            CREATE TABLE event_handler_process (
                 id                  UUID                        PRIMARY KEY,
                 event_id            UUID                        NOT NULL REFERENCES event_log(id),
-                bean_name           VARCHAR(255)                NOT NULL,
-                method_name         VARCHAR(255)                NOT NULL,
-                status              VARCHAR(255)                NOT NULL,
+                bean_name           VARCHAR(100)                NOT NULL,
+                method_name         VARCHAR(100)                NOT NULL,
+                status              VARCHAR(30)                 NOT NULL,
                 last_attempt        TIMESTAMP WITH TIME ZONE,
                 next_attempt        TIMESTAMP WITH TIME ZONE,
                 attempts            INT8                        NOT NULL DEFAULT 0,
-                delay_seconds       BIGINT                      NOT NULL DEFAULT 0,
-                reason              TEXT
+                delay_seconds       INT8                        NOT NULL DEFAULT 0,
+                fail_reason         TEXT
             );
         </sql>
         <!-- @formatter:on -->
