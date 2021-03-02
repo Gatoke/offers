@@ -9,10 +9,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 
 @Configuration
-public class SchedulerLockConfiguration {
+class SchedulerLockConfiguration {
 
     @Bean
-    public LockProvider lockProvider(final DataSource dataSource) {
+    LockProvider lockProvider(final DataSource dataSource) {
         return new JdbcTemplateLockProvider(
                 JdbcTemplateLockProvider.Configuration.builder()
                         .withJdbcTemplate(new JdbcTemplate(dataSource))

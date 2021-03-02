@@ -24,7 +24,7 @@ public class EventMapper {
     public DomainEvent<?> toDomainEvent(final EventLog event) {
         try {
             final Constructor<? extends DomainEvent> declaredConstructor = event.getTargetClass().getDeclaredConstructor();
-            final DomainEvent domainEvent = declaredConstructor.newInstance();
+            final DomainEvent<?> domainEvent = declaredConstructor.newInstance();
             writeField(domainEvent, "id", event.getId(), true);
             writeField(domainEvent, "occurredOn", Time.of(event.getOccurredOn()), true);
             writeField(domainEvent, "payload", toObjectPayload(event.getPayload(), event.getPayloadClass()), true);

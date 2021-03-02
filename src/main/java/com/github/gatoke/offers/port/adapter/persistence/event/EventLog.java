@@ -36,11 +36,11 @@ public class EventLog {
 
     private String payload;
 
-    Class<? extends DomainEvent> getTargetClass() {
+    public Class<? extends DomainEvent> getTargetClass() {
         return type.getTarget();
     }
 
-    Class<?> getPayloadClass() {
+    public Class<?> getPayloadClass() {
         return type.getTargetPayload();
     }
 }

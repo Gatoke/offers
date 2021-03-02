@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.infrastructure.eventprocessor;
+package com.github.gatoke.offers.infrastructure.eventbus.model;
 
 import com.github.gatoke.offers.port.adapter.persistence.event.EventLog;
 import lombok.Getter;
@@ -16,10 +16,10 @@ import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Table(name = "event_handler")
+@Table(name = "event_handler_process")
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-class EventHandler {
+public class EventHandlerProcess {
 
     private static final int DELAY_MULTIPLIER = 3;
 
@@ -38,7 +38,7 @@ class EventHandler {
     private String methodName;
 
     @Enumerated(STRING)
-    private HandlerStatus status;
+    private EventHandlerProcessStatus status;
 
     private OffsetDateTime lastAttempt;
 
@@ -48,38 +48,54 @@ class EventHandler {
 
     private long delaySeconds;
 
-    private String reason;
+    private String failReason;
 
-    EventHandler(final EventLog event, final String beanName, final String methodName) {
+    public EventHandlerProcess(final EventLog event, final String beanName, final String methodName) {
         this.id = UUID.randomUUID();
         this.event = event;
         this.beanName = beanName;
         this.methodName = methodName;
-        this.status = HandlerStatus.NEW;
+        this.status = EventHandlerProcessStatus.NEW;
         this.nextAttempt = now(systemUTC());
         this.attempts = 0;
         this.delaySeconds = 0;
     }
 
-    void begin() {
+    public void begin() {
+        if (EventHandlerProcessStatus.SUCCESS == this.status) {
+            throw new IllegalStateException("Cannot begin when Handler already succeed.");
+        }
+        if (EventHandlerProcessStatus.RUNNING == this.status) {
+            throw new IllegalStateException("Cannot begin when Handler is already in progress.");
+        }
+        this.status = EventHandlerProcessStatus.RUNNING;
         this.lastAttempt = now(systemUTC());
         this.attempts++;
     }
 
-    void success() {
-        this.status = HandlerStatus.SUCCESS;
+    public void success() {
+        if (EventHandlerProcessStatus.RUNNING != this.status) {
+            throw new IllegalStateException("Cannot finish when Handler is not running.");
+        }
+        this.status = EventHandlerProcessStatus.SUCCESS;
         this.nextAttempt = null;
     }
 
-    void holdOn(final String reason) {
-        this.status = HandlerStatus.ON_HOLD;
-        this.reason = reason;
+    public void hold(final String reason) {
+        if (EventHandlerProcessStatus.SUCCESS == this.status) {
+            throw new IllegalStateException("Cannot hold when Handler already succeed.");
+        }
+        this.status = EventHandlerProcessStatus.ON_HOLD;
+        this.failReason = reason;
         this.nextAttempt = null;
     }
 
-    void failAndScheduleNextAttempt(final String reason) {
-        this.status = HandlerStatus.FAILED;
-        this.reason = reason;
+    public void failAndScheduleNextAttempt(final String reason) {
+        if (EventHandlerProcessStatus.SUCCESS == this.status) {
+            throw new IllegalStateException("Cannot fail when Handler already succeed.");
+        }
+        this.status = EventHandlerProcessStatus.FAILED;
+        this.failReason = reason;
         scheduleNextAttempt();
     }
 
