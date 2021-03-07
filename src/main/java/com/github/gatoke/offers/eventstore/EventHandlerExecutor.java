@@ -30,6 +30,14 @@ class EventHandlerExecutor {
 
     /**
      * Executes handler method for the process. Changes the status of the process depending on a result.
+     * <p>
+     * The {@link EventHandlerProcess} success when no exception is thrown.
+     * <p>
+     * The {@link EventHandlerProcess} holds when it cannot find the Method in a Bean. Can occur after renaming of
+     * Class/Method where {@link DomainEventHandler} was declared.
+     * <p>
+     * The {@link EventHandlerProcess} fails when other exception is thrown. If it's thrown there is probably a problem
+     * in {@link DomainEventHandler}.
      *
      * @param process - process to execute.
      * @see EventHandlerProcess
@@ -66,6 +74,13 @@ class EventHandlerExecutor {
         }
     }
 
+    /**
+     * @param event        Event as an Object (not String), loaded with a proper Class.
+     * @param eventHandler Event handler to invoke. It's a method annotated with {@link DomainEventHandler}
+     * @throws NoSuchMethodException     When a method name or bean name has changed.
+     * @throws IllegalAccessException    When ReflectionUtils rejects to invoke method.
+     * @throws InvocationTargetException When ReflectionUtils rejects to invoke method.
+     */
     private void invokeHandler(final Object event, final EventHandler eventHandler)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         final String beanName = eventHandler.getBeanName();

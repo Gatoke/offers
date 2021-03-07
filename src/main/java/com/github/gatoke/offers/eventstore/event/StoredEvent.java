@@ -34,7 +34,7 @@ public class StoredEvent {
     public StoredEvent(final String payload, final String eventType) {
         this.id = UUID.randomUUID();
         this.type = eventType;
-        this.occurredOn = OffsetDateTime.now();//todo clock ??
+        this.occurredOn = OffsetDateTime.now();
         this.payload = payload;
     }
 }

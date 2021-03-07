@@ -9,6 +9,9 @@ import java.lang.reflect.Method;
 
 import static lombok.AccessLevel.PROTECTED;
 
+/**
+ * Represents an event handler loaded into the runtime which is a method annotated with {@link com.github.gatoke.offers.eventstore.DomainEventHandler}
+ */
 @Getter
 @Embeddable
 @EqualsAndHashCode
