@@ -2,9 +2,7 @@ package com.github.gatoke.offers.port.adapter.event;
 
 import com.github.gatoke.offers.domain.shared.DomainEvent;
 import com.github.gatoke.offers.domain.shared.EventPublisher;
-import com.github.gatoke.offers.infrastructure.eventbus.EventBus;
-import com.github.gatoke.offers.port.adapter.persistence.event.EventLog;
-import com.github.gatoke.offers.port.adapter.persistence.event.EventLogRepository;
+import com.github.gatoke.offers.eventstore.EventStore;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,25 +15,23 @@ import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 @RequiredArgsConstructor
 class StoreAndForwardEventPublisher implements EventPublisher {
 
-    private final EventLogRepository eventLogRepository;
-    private final EventBus eventBus;
+    private final EventStore eventStore;
 
     @Override
     @Transactional(propagation = MANDATORY)
-    public void publish(final DomainEvent<?> event) {
-        final EventLog savedEvent = eventLogRepository.save(event);
-        eventBus.register(savedEvent);
+    public void publish(final DomainEvent event) {
+        eventStore.append(event, event.getType().toString());
     }
 
     @Scheduled(fixedDelayString = "PT1S")
     @SchedulerLock(name = "processPendingEventsScheduler", lockAtMostFor = "5M")
     public void forward() {
-        eventBus.processPendingEvents();
+        eventStore.processPendingEvents();
     }
 
     @Scheduled(cron = "0 1 1 * * *", zone = "UTC")
     @SchedulerLock(name = "cleanSucceedEventsScheduler", lockAtMostFor = "60M")
     public void clean() {
-        eventBus.cleanSucceedEvents();
+        eventStore.cleanSucceedProcesses();
     }
 }

@@ -1,20 +1,16 @@
-package com.github.gatoke.offers.port.adapter.persistence.event;
+package com.github.gatoke.offers.eventstore.event;
 
-import com.github.gatoke.offers.domain.shared.DomainEvent;
-import com.github.gatoke.offers.domain.shared.EventType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -24,23 +20,21 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PROTECTED)
-public class EventLog {
+public class StoredEvent {
 
     @Id
     private UUID id;
 
-    @Enumerated(STRING)
-    private EventType type;
+    private String type;
 
     private OffsetDateTime occurredOn;
 
     private String payload;
 
-    public Class<? extends DomainEvent> getTargetClass() {
-        return type.getTarget();
-    }
-
-    public Class<?> getPayloadClass() {
-        return type.getTargetPayload();
+    public StoredEvent(final String payload, final String eventType) {
+        this.id = UUID.randomUUID();
+        this.type = eventType;
+        this.occurredOn = OffsetDateTime.now();//todo clock ??
+        this.payload = payload;
     }
 }

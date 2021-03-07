@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.port.adapter.persistence.event;
+package com.github.gatoke.offers.eventstore.event;
 
 import java.util.UUID;
 

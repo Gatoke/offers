@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.infrastructure.eventbus.model;
+package com.github.gatoke.offers.eventstore.process;
 
 public enum EventHandlerProcessStatus {
 

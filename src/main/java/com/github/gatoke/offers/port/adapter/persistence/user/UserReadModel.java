@@ -1,6 +1,6 @@
 package com.github.gatoke.offers.port.adapter.persistence.user;
 
-import com.github.gatoke.offers.domain.user.User;
+import com.github.gatoke.offers.domain.user.event.UserRegisteredEvent;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -26,13 +26,13 @@ public class UserReadModel {
 
     private long activeOffersCount;
 
-    static UserReadModel of(final User user) {
+    static UserReadModel of(final UserRegisteredEvent event) {
         final UserReadModel userReadModel = new UserReadModel();
-        userReadModel.id = user.getId();
-        userReadModel.firstName = user.getName().getFirstName();
-        userReadModel.lastName = user.getName().getLastName();
-        userReadModel.email = user.getEmail().getValue();
-        userReadModel.registeredAt = user.getRegisteredAt().getValue();
+        userReadModel.id = event.getId();
+        userReadModel.firstName = event.getFirstName();
+        userReadModel.lastName = event.getLastName();
+        userReadModel.email = event.getEmail();
+        userReadModel.registeredAt = event.getRegisteredAt();
         userReadModel.activeOffersCount = 0;
         return userReadModel;
     }

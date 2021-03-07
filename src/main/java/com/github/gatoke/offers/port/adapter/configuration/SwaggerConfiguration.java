@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.infrastructure;
+package com.github.gatoke.offers.port.adapter.configuration;
 
 import com.google.common.base.Predicates;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

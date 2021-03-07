@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.port.adapter.event;
+package com.github.gatoke.offers.eventstore;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

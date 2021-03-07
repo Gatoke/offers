@@ -1,7 +1,5 @@
-package com.github.gatoke.offers.infrastructure.eventbus.repository;
+package com.github.gatoke.offers.eventstore.process;
 
-import com.github.gatoke.offers.infrastructure.eventbus.model.EventHandlerProcess;
-import com.github.gatoke.offers.infrastructure.eventbus.model.EventHandlerProcessStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 

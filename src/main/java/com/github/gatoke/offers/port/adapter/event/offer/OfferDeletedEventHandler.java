@@ -1,7 +1,7 @@
 package com.github.gatoke.offers.port.adapter.event.offer;
 
 import com.github.gatoke.offers.domain.offer.event.OfferDeletedEvent;
-import com.github.gatoke.offers.port.adapter.event.DomainEventHandler;
+import com.github.gatoke.offers.eventstore.DomainEventHandler;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModel;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModelRepository;
 import com.github.gatoke.offers.port.adapter.persistence.user.UserReadModel;
@@ -19,17 +19,15 @@ class OfferDeletedEventHandler {
     private final UserReadModelRepository userReadModelRepository;
 
     @DomainEventHandler
-    public void updateOfferReadModel(final OfferDeletedEvent event) {
-        final OfferDeletedEvent.Payload payload = event.getPayload();
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
-        offerReadModel.setStatus(payload.getStatus());
+    void updateOfferReadModel(final OfferDeletedEvent event) {
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
+        offerReadModel.setStatus(event.getOfferStatus());
         offerReadModelRepository.save(offerReadModel);
     }
 
     @DomainEventHandler
-    public void updateUserReadModel(final OfferDeletedEvent event) {
-        final OfferDeletedEvent.Payload payload = event.getPayload();
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
+    void updateUserReadModel(final OfferDeletedEvent event) {
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
         final UserReadModel userReadModel = userReadModelRepository.findOrThrow(valueOf(offerReadModel.getUserId()));
         userReadModel.decreaseActiveOffersCount();
         userReadModelRepository.save(userReadModel);

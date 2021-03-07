@@ -1,17 +1,18 @@
-package com.github.gatoke.offers.infrastructure.eventbus.model;
+package com.github.gatoke.offers.eventstore.process;
 
-import com.github.gatoke.offers.port.adapter.persistence.event.EventLog;
+import com.github.gatoke.offers.eventstore.event.StoredEvent;
+import com.github.gatoke.offers.eventstore.handler.EventHandler;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import static java.time.Clock.systemUTC;
 import static java.time.OffsetDateTime.now;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -26,16 +27,17 @@ public class EventHandlerProcess {
     @Id
     private UUID id;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = PERSIST)
     @JoinColumn(name = "event_id")
-    private EventLog event;
+    private StoredEvent event;
 
-    @NotBlank
-    private String beanName;
-
-    @NotBlank
-    private String methodName;
+    @NotNull
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "beanName", column = @Column(name = "bean_name")),
+            @AttributeOverride(name = "methodName", column = @Column(name = "method_name"))
+    })
+    private EventHandler eventHandler;
 
     @Enumerated(STRING)
     private EventHandlerProcessStatus status;
@@ -50,11 +52,10 @@ public class EventHandlerProcess {
 
     private String failReason;
 
-    public EventHandlerProcess(final EventLog event, final String beanName, final String methodName) {
+    public EventHandlerProcess(final StoredEvent storedEvent, final EventHandler eventHandler) {
         this.id = UUID.randomUUID();
-        this.event = event;
-        this.beanName = beanName;
-        this.methodName = methodName;
+        this.event = storedEvent;
+        this.eventHandler = eventHandler;
         this.status = EventHandlerProcessStatus.NEW;
         this.nextAttempt = now(systemUTC());
         this.attempts = 0;

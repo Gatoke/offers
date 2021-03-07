@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.infrastructure.eventbus.handler;
+package com.github.gatoke.offers.eventstore.handler;
 
 class TooManyParametersInEventHandlerException extends Throwable {
 

@@ -1,6 +1,6 @@
-package com.github.gatoke.offers.infrastructure.eventbus.handler;
+package com.github.gatoke.offers.eventstore.handler;
 
-import com.github.gatoke.offers.port.adapter.event.DomainEventHandler;
+import com.github.gatoke.offers.eventstore.DomainEventHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -27,13 +27,15 @@ class EventHandlerSpringRegistry implements EventHandlerRegistry {
 
     private final ConfigurableApplicationContext context;
     private final ConfigurableListableBeanFactory beanFactory;
+    private final EventClassResolver eventClassResolver;
 
     private final Set<EventHandler> eventHandlers = new HashSet<>();
 
     @Override
-    public Set<EventHandler> findAllFor(final Class<?> eventType) {
+    public Set<EventHandler> findAllBy(final String eventType) {
+        final Class<?> eventClass = eventClassResolver.resolveClass(eventType);
         return eventHandlers.stream()
-                .filter(eventHandler -> eventHandler.isEligibleFor(eventType))
+                .filter(eventHandler -> eventHandler.isEligibleFor(eventClass))
                 .collect(toUnmodifiableSet());
     }
 

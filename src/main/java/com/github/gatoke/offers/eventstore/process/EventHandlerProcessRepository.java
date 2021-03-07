@@ -1,14 +1,12 @@
-package com.github.gatoke.offers.infrastructure.eventbus.repository;
+package com.github.gatoke.offers.eventstore.process;
 
-import com.github.gatoke.offers.infrastructure.eventbus.model.EventHandlerProcess;
-import com.github.gatoke.offers.infrastructure.eventbus.model.EventHandlerProcessStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.github.gatoke.offers.infrastructure.eventbus.model.EventHandlerProcessStatus.SUCCESS;
+import static com.github.gatoke.offers.eventstore.process.EventHandlerProcessStatus.SUCCESS;
 import static java.time.Clock.systemUTC;
 import static java.time.OffsetDateTime.now;
 
