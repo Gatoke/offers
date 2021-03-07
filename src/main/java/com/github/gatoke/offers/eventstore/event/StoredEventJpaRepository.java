@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public interface EventLogJpaRepository extends JpaRepository<StoredEvent, UUID> {
+public interface StoredEventJpaRepository extends JpaRepository<StoredEvent, UUID> {
 
     List<StoredEvent> findFirst100ByOccurredOnAfterOrderByOccurredOnAsc(OffsetDateTime dateTime);
 

@@ -1,7 +1,7 @@
 package com.github.gatoke.offers.port.adapter.rest.events;
 
-import com.github.gatoke.offers.eventstore.event.EventLogRepository;
 import com.github.gatoke.offers.eventstore.event.StoredEvent;
+import com.github.gatoke.offers.eventstore.event.StoredEventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +18,16 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 class EventsEndpoint {
 
-    private final EventLogRepository eventLogRepository;
+    private final StoredEventRepository storedEventRepository;
     private final EventDtoMapper mapper;
 
     @GetMapping
     List<EventDto> getEvents(@RequestParam(required = false) final UUID after) {
         final List<StoredEvent> events;
         if (after == null) {
-            events = eventLogRepository.getPageFromBeginning();
+            events = storedEventRepository.getPageFromBeginning();
         } else {
-            events = eventLogRepository.getPageAfterId(after);
+            events = storedEventRepository.getPageAfterId(after);
         }
         return events.stream().map(mapper::toEventDto).collect(toList());
     }

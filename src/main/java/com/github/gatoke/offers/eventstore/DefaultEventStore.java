@@ -1,8 +1,8 @@
 package com.github.gatoke.offers.eventstore;
 
-import com.github.gatoke.offers.eventstore.event.EventLogRepository;
 import com.github.gatoke.offers.eventstore.event.EventMapper;
 import com.github.gatoke.offers.eventstore.event.StoredEvent;
+import com.github.gatoke.offers.eventstore.event.StoredEventRepository;
 import com.github.gatoke.offers.eventstore.handler.EventHandler;
 import com.github.gatoke.offers.eventstore.handler.EventHandlerRegistry;
 import com.github.gatoke.offers.eventstore.process.EventHandlerProcess;
@@ -23,7 +23,7 @@ import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 class DefaultEventStore implements EventStore {
 
     private final EventHandlerProcessRepository processRepository;
-    private final EventLogRepository eventLogRepository;
+    private final StoredEventRepository storedEventRepository;
     private final EventHandlerRegistry eventHandlerRegistry;
     private final EventHandlerExecutor eventHandlerExecutor;
     private final EventMapper eventMapper;
@@ -31,7 +31,7 @@ class DefaultEventStore implements EventStore {
     @Override
     @Transactional(propagation = MANDATORY)
     public void append(@NotNull final Object event, @NotNull final String eventType) {
-        final StoredEvent storedEvent = eventLogRepository.save(
+        final StoredEvent storedEvent = storedEventRepository.save(
                 new StoredEvent(eventMapper.toString(event), eventType)
         );
 

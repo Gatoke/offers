@@ -9,9 +9,9 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class EventLogRepository {
+public class StoredEventRepository {
 
-    private final EventLogJpaRepository repository;
+    private final StoredEventJpaRepository repository;
 
     public StoredEvent save(final StoredEvent event) {
         repository.save(event);
