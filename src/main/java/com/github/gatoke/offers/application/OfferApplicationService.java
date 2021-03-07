@@ -62,7 +62,7 @@ public class OfferApplicationService {
     }
 
     public void publishOn(final OfferAcceptedEvent event) {
-        final Offer offer = offerRepository.findOrFail(event.getPayload().getOfferId());
+        final Offer offer = offerRepository.findOrFail(event.getOfferId());
 
         offer.publish();
         offerRepository.save(offer);
@@ -70,7 +70,7 @@ public class OfferApplicationService {
     }
 
     public void finishOn(final OfferFinishedEvent event) {
-        final Offer offer = offerRepository.findOrFail(event.getPayload().getOfferId());
+        final Offer offer = offerRepository.findOrFail(event.getOfferId());
 
         offer.finish();
         offerRepository.save(offer);

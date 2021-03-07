@@ -1,7 +1,7 @@
 package com.github.gatoke.offers.port.adapter.event.offer;
 
 import com.github.gatoke.offers.domain.offer.event.OfferRejectedEvent;
-import com.github.gatoke.offers.port.adapter.event.DomainEventHandler;
+import com.github.gatoke.offers.eventstore.DomainEventHandler;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModel;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModelRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +14,10 @@ class OfferRejectedEventHandler {
     private final OfferReadModelRepository offerReadModelRepository;
 
     @DomainEventHandler
-    public void updateOfferReadModel(final OfferRejectedEvent event) {
-        final OfferRejectedEvent.Payload payload = event.getPayload();
-        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(payload.getOfferId());
-        offerReadModel.setStatus(payload.getStatus());
-        offerReadModel.setRejectedReason(payload.getReason());
+    void updateOfferReadModel(final OfferRejectedEvent event) {
+        final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
+        offerReadModel.setStatus(event.getOfferStatus());
+        offerReadModel.setRejectedReason(event.getReason());
         offerReadModelRepository.save(offerReadModel);
     }
 }

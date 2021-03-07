@@ -1,6 +1,6 @@
 package com.github.gatoke.offers.port.adapter.persistence.offer;
 
-import com.github.gatoke.offers.domain.offer.Offer;
+import com.github.gatoke.offers.domain.offer.event.OfferCreatedEvent;
 import com.github.gatoke.offers.domain.offer.exception.OfferNotFoundException;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
 import com.github.gatoke.offers.domain.user.exception.UserNotFoundException;
@@ -20,8 +20,8 @@ public class OfferReadModelRepository {
 
     private final OfferReadModelJpaRepository repository;
 
-    public void create(final Offer offer) {
-        final OfferReadModel offerReadModel = OfferReadModel.of(offer);
+    public void create(final OfferCreatedEvent offerCreatedEvent) {
+        final OfferReadModel offerReadModel = OfferReadModel.of(offerCreatedEvent);
         repository.save(offerReadModel);
     }
 

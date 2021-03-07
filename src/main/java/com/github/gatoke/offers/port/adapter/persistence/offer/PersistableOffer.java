@@ -41,12 +41,12 @@ class PersistableOffer {
 
     Offer toDomainObject() {
         return Offer.builder()
-                    .id(this.id)
-                    .userId(this.userId)
-                    .title(this.title)
-                    .content(this.content)
-                    .status(this.status)
-                    .createdAt(Time.of(this.createdAt))
-                    .build();
+                .id(this.id)
+                .userId(this.userId)
+                .title(this.title)
+                .content(this.content)
+                .status(this.status)
+                .createdAt(Time.of(this.createdAt))
+                .build();
     }
 }

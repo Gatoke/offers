@@ -2,31 +2,31 @@ package com.github.gatoke.offers.domain.user.event;
 
 import com.github.gatoke.offers.domain.shared.DomainEvent;
 import com.github.gatoke.offers.domain.shared.EventType;
-import com.github.gatoke.offers.domain.shared.Time;
 import com.github.gatoke.offers.domain.user.User;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.time.OffsetDateTime;
 
 import static com.github.gatoke.offers.domain.shared.EventType.USER_REGISTERED;
 
-
 @Getter
-@EqualsAndHashCode
 @NoArgsConstructor
-public class UserRegisteredEvent implements DomainEvent<User> {
+public class UserRegisteredEvent implements DomainEvent {
 
     private final EventType type = USER_REGISTERED;
 
-    private UUID id;
-    private Time occurredOn;
-    private User payload;
+    private long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private OffsetDateTime registeredAt;
 
     public UserRegisteredEvent(final User user) {
-        this.id = UUID.randomUUID();
-        this.occurredOn = Time.now();
-        this.payload = user;
+        this.id = user.getId();
+        this.firstName = user.getName().getFirstName();
+        this.lastName = user.getName().getLastName();
+        this.email = user.getEmail().getValue();
+        this.registeredAt = user.getRegisteredAt().getValue();
     }
 }

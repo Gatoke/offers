@@ -1,6 +1,6 @@
 package com.github.gatoke.offers.port.adapter.persistence.offer;
 
-import com.github.gatoke.offers.domain.offer.Offer;
+import com.github.gatoke.offers.domain.offer.event.OfferCreatedEvent;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -37,14 +37,14 @@ public class OfferReadModel {
 
     private String rejectedReason;
 
-    static OfferReadModel of(final Offer offer) {
+    static OfferReadModel of(final OfferCreatedEvent offer) {
         final OfferReadModel offerReadModel = new OfferReadModel();
-        offerReadModel.id = offer.getId();
+        offerReadModel.id = offer.getOfferId();
         offerReadModel.userId = offer.getUserId();
         offerReadModel.title = offer.getTitle();
         offerReadModel.content = offer.getContent();
         offerReadModel.status = offer.getStatus();
-        offerReadModel.createdAt = offer.getCreatedAt().getValue();
+        offerReadModel.createdAt = offer.getCreatedAt();
         offerReadModel.rejectedReason = null;
         return offerReadModel;
     }

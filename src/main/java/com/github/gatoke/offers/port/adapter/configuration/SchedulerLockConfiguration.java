@@ -1,4 +1,4 @@
-package com.github.gatoke.offers.infrastructure;
+package com.github.gatoke.offers.port.adapter.configuration;
 
 import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateLockProvider;

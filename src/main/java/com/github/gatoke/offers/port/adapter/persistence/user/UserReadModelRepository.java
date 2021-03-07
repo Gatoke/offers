@@ -13,8 +13,8 @@ public class UserReadModelRepository {
 
     private final UserReadModelJpaRepository repository;
 
-    public void createOn(final UserRegisteredEvent userRegisteredEvent) {
-        final UserReadModel userReadModel = UserReadModel.of(userRegisteredEvent.getPayload());
+    public void create(final UserRegisteredEvent userRegisteredEvent) {
+        final UserReadModel userReadModel = UserReadModel.of(userRegisteredEvent);
         repository.save(userReadModel);
     }
 

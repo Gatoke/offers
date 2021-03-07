@@ -14,9 +14,6 @@ class ArchitectureTest extends Specification {
 
         when:
         def architectureRules = layeredArchitecture()
-                .layer("Infrastructure")
-                .definedBy("com.github.gatoke.offers.infrastructure..")
-
                 .layer("PortAdapter")
                 .definedBy("com.github.gatoke.offers.port.adapter..")
 
@@ -26,9 +23,9 @@ class ArchitectureTest extends Specification {
                 .layer("Domain")
                 .definedBy("com.github.gatoke.offers.domain..")
 
-                .whereLayer("PortAdapter").mayOnlyBeAccessedByLayers("Infrastructure")
-                .whereLayer("Application").mayOnlyBeAccessedByLayers("PortAdapter", "Infrastructure")
-                .whereLayer("Domain").mayOnlyBeAccessedByLayers("Application", "PortAdapter", "Infrastructure")
+                .whereLayer("PortAdapter").mayNotBeAccessedByAnyLayer()
+                .whereLayer("Application").mayOnlyBeAccessedByLayers("PortAdapter")
+                .whereLayer("Domain").mayOnlyBeAccessedByLayers("Application", "PortAdapter")
 
         then:
         architectureRules.check(importedClasses)
