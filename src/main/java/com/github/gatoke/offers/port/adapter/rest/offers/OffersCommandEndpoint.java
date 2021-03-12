@@ -1,11 +1,11 @@
 package com.github.gatoke.offers.port.adapter.rest.offers;
 
-import com.github.gatoke.offers.application.OfferApplicationService;
-import com.github.gatoke.offers.application.command.AcceptOfferCommand;
-import com.github.gatoke.offers.application.command.CreateOfferCommand;
-import com.github.gatoke.offers.application.command.DeleteOfferCommand;
-import com.github.gatoke.offers.application.command.RejectOfferCommand;
-import com.github.gatoke.offers.application.dto.OfferDto;
+import com.github.gatoke.offers.application.offer.command.AcceptOfferCommand;
+import com.github.gatoke.offers.application.offer.command.CreateOfferCommand;
+import com.github.gatoke.offers.application.offer.command.DeleteOfferCommand;
+import com.github.gatoke.offers.application.offer.command.RejectOfferCommand;
+import com.github.gatoke.offers.application.shared.CommandBus;
+import com.github.gatoke.offers.port.adapter.rest.ResourceCreatedResponseBuilder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,38 +15,36 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.ResponseEntity.*;
-
 @RestController
 @RequestMapping("/offers")
 @RequiredArgsConstructor
 class OffersCommandEndpoint {
 
-    private final OfferApplicationService offerApplicationService;
+    private final CommandBus commandBus;
 
     @PostMapping
-    ResponseEntity<OfferDto> create(@RequestBody @Valid final CreateOfferRequest request) {
-        final OfferDto offer = offerApplicationService.createOffer(request.toCommand());
-        return status(CREATED).body(offer);
+    ResponseEntity<?> create(@RequestBody @Valid final CreateOfferRequest request) {
+        final CreateOfferCommand command = request.toCommand();
+        commandBus.execute(command);
+        return ResourceCreatedResponseBuilder.fromId(command.getOfferId());
     }
 
     @PostMapping("/accept/{offerId}")
-    ResponseEntity<Object> accept(@PathVariable final String offerId) {
-        offerApplicationService.accept(new AcceptOfferCommand(offerId));
-        return ok().build();
+    void accept(@PathVariable final String offerId) {
+        final AcceptOfferCommand command = new AcceptOfferCommand(offerId);
+        commandBus.execute(command);
     }
 
     @PostMapping("/reject")
-    ResponseEntity<Object> reject(@RequestBody @Valid final RejectOfferRequest request) {
-        offerApplicationService.reject(request.toCommand());
-        return ok().build();
+    void reject(@RequestBody @Valid final RejectOfferRequest request) {
+        final RejectOfferCommand command = request.toCommand();
+        commandBus.execute(command);
     }
 
     @DeleteMapping("/{offerId}")
-    ResponseEntity<Object> delete(@PathVariable final String offerId) {
-        offerApplicationService.delete(new DeleteOfferCommand(offerId));
-        return noContent().build();
+    void delete(@PathVariable final String offerId) {
+        final DeleteOfferCommand command = new DeleteOfferCommand(offerId);
+        commandBus.execute(command);
     }
 
     @Data

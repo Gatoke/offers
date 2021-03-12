@@ -3,6 +3,8 @@ package com.github.gatoke.offers.port.adapter.persistence.user;
 import com.github.gatoke.offers.domain.user.event.UserRegisteredEvent;
 import com.github.gatoke.offers.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -30,5 +32,9 @@ public class UserReadModelRepository {
         } catch (final NumberFormatException ex) {
             throw new UserNotFoundException(userId);
         }
+    }
+
+    public Page<UserReadModel> findAll(final Pageable pageable) {
+        return repository.findAll(pageable);
     }
 }

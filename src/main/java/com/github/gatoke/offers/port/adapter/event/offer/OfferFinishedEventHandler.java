@@ -1,6 +1,7 @@
 package com.github.gatoke.offers.port.adapter.event.offer;
 
-import com.github.gatoke.offers.application.OfferApplicationService;
+import com.github.gatoke.offers.application.offer.command.FinishOfferCommand;
+import com.github.gatoke.offers.application.shared.CommandBus;
 import com.github.gatoke.offers.domain.offer.event.OfferFinishedEvent;
 import com.github.gatoke.offers.eventstore.DomainEventHandler;
 import com.github.gatoke.offers.port.adapter.persistence.offer.OfferReadModel;
@@ -12,12 +13,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 class OfferFinishedEventHandler {
 
-    private final OfferApplicationService offerApplicationService;
     private final OfferReadModelRepository offerReadModelRepository;
+    private final CommandBus commandBus;
 
     @DomainEventHandler
     void finishOffer(final OfferFinishedEvent event) {
-        offerApplicationService.finishOn(event);
+        final FinishOfferCommand command = new FinishOfferCommand(event.getOfferId());
+        commandBus.execute(command);
     }
 
     @DomainEventHandler

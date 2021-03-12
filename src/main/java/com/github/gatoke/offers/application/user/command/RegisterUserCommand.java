@@ -1,11 +1,12 @@
-package com.github.gatoke.offers.application.command;
+package com.github.gatoke.offers.application.user.command;
 
+import com.github.gatoke.offers.application.shared.Command;
 import com.github.gatoke.offers.domain.user.vo.Email;
 import com.github.gatoke.offers.domain.user.vo.Name;
 import lombok.Getter;
 
 @Getter
-public class RegisterUserCommand {
+public class RegisterUserCommand implements Command {
 
     private final long userId;
     private final Name name;

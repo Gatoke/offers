@@ -28,10 +28,11 @@ public class Offer extends Aggregate {
     private OfferStatus status;
     private Time createdAt;
 
-    private Offer(final long userId,
-                  final String title,
-                  final String content) {
-        this.id = UUID.randomUUID();
+    public Offer(final UUID offerId,
+                 final long userId,
+                 final String title,
+                 final String content) {
+        this.id = offerId;
         this.userId = userId;
         this.title = title;
         this.content = content;
@@ -40,8 +41,8 @@ public class Offer extends Aggregate {
         registerEvent(new OfferCreatedEvent(this));
     }
 
-    public static Offer create(final long userId, final String title, final String content) {
-        return new Offer(userId, title, content);
+    public static Offer create(final UUID offerId, final long userId, final String title, final String content) {
+        return new Offer(offerId, userId, title, content);
     }
 
     public void accept() {
