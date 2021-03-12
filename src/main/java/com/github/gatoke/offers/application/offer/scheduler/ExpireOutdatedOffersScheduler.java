@@ -1,6 +1,7 @@
-package com.github.gatoke.offers.application.scheduler;
+package com.github.gatoke.offers.application.offer.scheduler;
 
-import com.github.gatoke.offers.application.OfferApplicationService;
+import com.github.gatoke.offers.application.offer.command.ExpireOfferCommand;
+import com.github.gatoke.offers.application.shared.CommandBus;
 import com.github.gatoke.offers.domain.offer.FindOutdatedOffersService;
 import com.github.gatoke.offers.domain.offer.Offer;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 class ExpireOutdatedOffersScheduler {
 
     private final FindOutdatedOffersService findOutdatedOffersService;
-    private final OfferApplicationService offerApplicationService;
+    private final CommandBus commandBus;
 
     @Scheduled(fixedDelayString = "PT5M")
     @SchedulerLock(name = "expireOutdatedOffersScheduler", lockAtMostFor = "60M")
@@ -25,7 +26,8 @@ class ExpireOutdatedOffersScheduler {
         final List<Offer> offersToExpire = findOutdatedOffersService.find();
         offersToExpire.forEach(offer -> {
             try {
-                offerApplicationService.expire(offer);
+                final ExpireOfferCommand command = new ExpireOfferCommand(offer.getId());
+                commandBus.execute(command);
             } catch (final Exception ex) {
                 log.warn("Expiring offer with id: {} failed. Cause: {}", offer.getId(), ex.getMessage());
             }

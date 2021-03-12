@@ -1,11 +1,12 @@
-package com.github.gatoke.offers.application.command;
+package com.github.gatoke.offers.application.offer.command;
 
+import com.github.gatoke.offers.application.shared.Command;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
-public class RejectOfferCommand {
+public class RejectOfferCommand implements Command {
 
     private final UUID offerId;
     private final String reason;
