@@ -25,12 +25,11 @@ class CreateOfferCommandHandler implements CommandHandler<CreateOfferCommand> {
             throw new UserNotFoundException(command.getUserId());
         }
         final Offer offer = offerRepository.save(
-                new Offer(
+                Offer.create(
                         command.getOfferId(),
                         command.getUserId(),
                         command.getTitle(),
-                        command.getContent()
-                )
+                        command.getContent())
         );
         return offer.pickDomainEvents();
     }

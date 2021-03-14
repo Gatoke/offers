@@ -26,8 +26,8 @@ public class OfferCreatedEvent implements DomainEvent {
     private OffsetDateTime createdAt;
 
     public OfferCreatedEvent(final Offer offer) {
-        this.offerId = offer.getId();
-        this.userId = offer.getUserId();
+        this.offerId = offer.getId().getValue();
+        this.userId = offer.getUserId().getValue();
         this.title = offer.getTitle();
         this.content = offer.getContent();
         this.status = offer.getStatus();

@@ -9,8 +9,6 @@ import com.github.gatoke.offers.port.adapter.persistence.user.UserReadModelRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static java.lang.String.valueOf;
-
 @Component
 @RequiredArgsConstructor
 class OfferExpiredEventHandler {
@@ -28,7 +26,7 @@ class OfferExpiredEventHandler {
     @DomainEventHandler
     void updateUserReadModel(final OfferExpiredEvent event) {
         final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
-        final UserReadModel userReadModel = userReadModelRepository.findOrThrow(valueOf(offerReadModel.getUserId()));
+        final UserReadModel userReadModel = userReadModelRepository.findOrThrow(offerReadModel.getUserId());
         userReadModel.decreaseActiveOffersCount();
         userReadModelRepository.save(userReadModel);
     }

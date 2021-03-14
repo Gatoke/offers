@@ -11,8 +11,6 @@ import com.github.gatoke.offers.port.adapter.persistence.user.UserReadModelRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static java.lang.String.valueOf;
-
 @Component
 @RequiredArgsConstructor
 class OfferAcceptedEventHandler {
@@ -37,7 +35,7 @@ class OfferAcceptedEventHandler {
     @DomainEventHandler
     void updateUserReadModel(final OfferAcceptedEvent event) {
         final OfferReadModel offerReadModel = offerReadModelRepository.findOrThrow(event.getOfferId());
-        final UserReadModel userReadModel = userReadModelRepository.findOrThrow(valueOf(offerReadModel.getUserId()));
+        final UserReadModel userReadModel = userReadModelRepository.findOrThrow(offerReadModel.getUserId());
         userReadModel.increaseActiveOffersCount();
         userReadModelRepository.save(userReadModel);
     }
