@@ -1,10 +1,12 @@
 package com.github.gatoke.offers.domain.user;
 
+import com.github.gatoke.offers.domain.user.vo.UserId;
+
 public interface UserRepository {
 
     User save(User user);
 
-    boolean doesNotExist(long userId);
+    boolean doesNotExist(UserId userId);
 
-    boolean exists(long userId);
+    boolean exists(UserId userId);
 }

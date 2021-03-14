@@ -2,15 +2,15 @@ package com.github.gatoke.offers.domain.offer;
 
 import com.github.gatoke.offers.domain.offer.event.*;
 import com.github.gatoke.offers.domain.offer.exception.InvalidOfferStatusStateException;
+import com.github.gatoke.offers.domain.offer.vo.OfferId;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
 import com.github.gatoke.offers.domain.shared.Aggregate;
 import com.github.gatoke.offers.domain.shared.Time;
+import com.github.gatoke.offers.domain.user.vo.UserId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 import static com.github.gatoke.offers.domain.offer.vo.OfferStatus.*;
 import static lombok.AccessLevel.PRIVATE;
@@ -21,17 +21,17 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 public class Offer extends Aggregate {
 
-    private UUID id;
-    private long userId;
+    private OfferId id;
+    private UserId userId;
     private String title;
     private String content;
     private OfferStatus status;
     private Time createdAt;
 
-    public Offer(final UUID offerId,
-                 final long userId,
-                 final String title,
-                 final String content) {
+    private Offer(final OfferId offerId,
+                  final UserId userId,
+                  final String title,
+                  final String content) {
         this.id = offerId;
         this.userId = userId;
         this.title = title;
@@ -41,7 +41,7 @@ public class Offer extends Aggregate {
         registerEvent(new OfferCreatedEvent(this));
     }
 
-    public static Offer create(final UUID offerId, final long userId, final String title, final String content) {
+    public static Offer create(final OfferId offerId, final UserId userId, final String title, final String content) {
         return new Offer(offerId, userId, title, content);
     }
 

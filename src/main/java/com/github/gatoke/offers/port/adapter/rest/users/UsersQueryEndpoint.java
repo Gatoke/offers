@@ -22,7 +22,7 @@ class UsersQueryEndpoint {
     private final UserReadModelRepository userReadModelRepository;
 
     @GetMapping("/{id}")
-    ResponseEntity<UserReadModel> get(@PathVariable final String id) {
+    ResponseEntity<UserReadModel> get(@PathVariable final long id) {
         final UserReadModel userReadModel = userReadModelRepository.findOrThrow(id);
         return ResponseEntity.ok(userReadModel);
     }

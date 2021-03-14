@@ -7,6 +7,7 @@ Functionality:
 - creating Offers + accept,reject,delete operations + querying Offers
 - REST Events endpoint
 - Store and forward event publisher + retriggering failed events on specific handlers
+- Simple command bus
 
 Architecture:
 ----

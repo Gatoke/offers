@@ -1,8 +1,10 @@
 package com.github.gatoke.offers.port.adapter.persistence.offer;
 
 import com.github.gatoke.offers.domain.offer.Offer;
+import com.github.gatoke.offers.domain.offer.vo.OfferId;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
 import com.github.gatoke.offers.domain.shared.Time;
+import com.github.gatoke.offers.domain.user.vo.UserId;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -30,8 +32,8 @@ class PersistableOffer {
 
     static PersistableOffer of(final Offer offer) {
         final PersistableOffer persistableOffer = new PersistableOffer();
-        persistableOffer.id = offer.getId();
-        persistableOffer.userId = offer.getUserId();
+        persistableOffer.id = offer.getId().getValue();
+        persistableOffer.userId = offer.getUserId().getValue();
         persistableOffer.title = offer.getTitle();
         persistableOffer.content = offer.getContent();
         persistableOffer.status = offer.getStatus();
@@ -41,8 +43,8 @@ class PersistableOffer {
 
     Offer toDomainObject() {
         return Offer.builder()
-                .id(this.id)
-                .userId(this.userId)
+                .id(OfferId.of(this.id))
+                .userId(UserId.of(this.userId))
                 .title(this.title)
                 .content(this.content)
                 .status(this.status)

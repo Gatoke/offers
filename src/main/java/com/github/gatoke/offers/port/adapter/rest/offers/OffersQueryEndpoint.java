@@ -32,7 +32,7 @@ class OffersQueryEndpoint {
             @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", defaultValue = "20"),
             @ApiImplicitParam(name = "sort", dataType = "string", paramType = "query", allowMultiple = true),
     })
-    ResponseEntity<Page<OfferReadModel>> findAllWithFilter(@RequestParam(required = false) final String userId,
+    ResponseEntity<Page<OfferReadModel>> findAllWithFilter(@RequestParam(required = false) final Long userId,
                                                            @RequestParam(required = false) final String offerStatus,
                                                            @ApiIgnore final Pageable pageable) {
         return ResponseEntity.ok(offerReadModelRepository.findAllWithFilter(userId, offerStatus, pageable));

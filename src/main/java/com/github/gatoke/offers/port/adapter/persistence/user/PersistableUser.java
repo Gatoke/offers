@@ -5,6 +5,7 @@ import com.github.gatoke.offers.domain.shared.Time;
 import com.github.gatoke.offers.domain.user.User;
 import com.github.gatoke.offers.domain.user.vo.Email;
 import com.github.gatoke.offers.domain.user.vo.Name;
+import com.github.gatoke.offers.domain.user.vo.UserId;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ class PersistableUser {
 
     static PersistableUser of(final User user) {
         final PersistableUser persistableUser = new PersistableUser();
-        persistableUser.id = user.getId();
+        persistableUser.id = user.getId().getValue();
         persistableUser.firstName = user.getName().getFirstName();
         persistableUser.lastName = user.getName().getLastName();
         persistableUser.email = user.getEmail().getValue();
@@ -40,7 +41,7 @@ class PersistableUser {
 
     User toDomainObject() {
         return User.builder()
-                .id(this.id)
+                .id(UserId.of(this.id))
                 .name(Name.of(this.firstName, this.lastName))
                 .email(Email.of(this.email))
                 .registeredAt(Time.of(registeredAt))

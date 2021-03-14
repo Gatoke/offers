@@ -26,7 +26,7 @@ class ExpireOutdatedOffersScheduler {
         final List<Offer> offersToExpire = findOutdatedOffersService.find();
         offersToExpire.forEach(offer -> {
             try {
-                final ExpireOfferCommand command = new ExpireOfferCommand(offer.getId());
+                final ExpireOfferCommand command = new ExpireOfferCommand(offer.getId().getValue());
                 commandBus.execute(command);
             } catch (final Exception ex) {
                 log.warn("Expiring offer with id: {} failed. Cause: {}", offer.getId(), ex.getMessage());

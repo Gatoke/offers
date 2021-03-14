@@ -23,7 +23,7 @@ public class UserRegisteredEvent implements DomainEvent {
     private OffsetDateTime registeredAt;
 
     public UserRegisteredEvent(final User user) {
-        this.id = user.getId();
+        this.id = user.getId().getValue();
         this.firstName = user.getName().getFirstName();
         this.lastName = user.getName().getLastName();
         this.email = user.getEmail().getValue();

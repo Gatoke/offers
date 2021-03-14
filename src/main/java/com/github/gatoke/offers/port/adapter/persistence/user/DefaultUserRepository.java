@@ -2,6 +2,7 @@ package com.github.gatoke.offers.port.adapter.persistence.user;
 
 import com.github.gatoke.offers.domain.user.User;
 import com.github.gatoke.offers.domain.user.UserRepository;
+import com.github.gatoke.offers.domain.user.vo.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,12 +20,12 @@ public class DefaultUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean doesNotExist(final long userId) {
-        return !repository.existsById(userId);
+    public boolean doesNotExist(final UserId userId) {
+        return !repository.existsById(userId.getValue());
     }
 
     @Override
-    public boolean exists(final long userId) {
-        return repository.existsById(userId);
+    public boolean exists(final UserId userId) {
+        return repository.existsById(userId.getValue());
     }
 }

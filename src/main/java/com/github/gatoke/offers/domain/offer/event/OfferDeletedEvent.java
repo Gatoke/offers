@@ -1,5 +1,6 @@
 package com.github.gatoke.offers.domain.offer.event;
 
+import com.github.gatoke.offers.domain.offer.vo.OfferId;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
 import com.github.gatoke.offers.domain.shared.DomainEvent;
 import com.github.gatoke.offers.domain.shared.EventType;
@@ -19,8 +20,8 @@ public class OfferDeletedEvent implements DomainEvent {
     private UUID offerId;
     private OfferStatus offerStatus;
 
-    public OfferDeletedEvent(final UUID offerId, final OfferStatus offerStatus) {
-        this.offerId = offerId;
+    public OfferDeletedEvent(final OfferId offerId, final OfferStatus offerStatus) {
+        this.offerId = offerId.getValue();
         this.offerStatus = offerStatus;
     }
 }

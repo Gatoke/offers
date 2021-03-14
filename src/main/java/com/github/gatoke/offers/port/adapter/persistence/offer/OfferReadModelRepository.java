@@ -34,10 +34,10 @@ public class OfferReadModelRepository {
         repository.save(offerReadModel);
     }
 
-    public Page<OfferReadModel> findAllWithFilter(final String userId, final String offerStatus, final Pageable pageable) {
+    public Page<OfferReadModel> findAllWithFilter(final Long userId, final String offerStatus, final Pageable pageable) {
         try {
             return repository.findAllWithFilter(
-                    isBlank(userId) ? null : Long.valueOf(userId),
+                    userId,
                     isBlank(offerStatus) ? null : OfferStatus.of(offerStatus),
                     pageable
             );

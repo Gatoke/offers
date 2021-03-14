@@ -24,11 +24,10 @@ public class UserReadModelRepository {
         repository.save(userReadModel);
     }
 
-    public UserReadModel findOrThrow(final String userId) {
+    public UserReadModel findOrThrow(final long userId) {
         try {
-            final Long id = Long.valueOf(userId);
-            final Optional<UserReadModel> userReadModelOptional = repository.findById(id);
-            return userReadModelOptional.orElseThrow(() -> new UserNotFoundException(id));
+            final Optional<UserReadModel> userReadModelOptional = repository.findById(userId);
+            return userReadModelOptional.orElseThrow(() -> new UserNotFoundException(userId));
         } catch (final NumberFormatException ex) {
             throw new UserNotFoundException(userId);
         }
