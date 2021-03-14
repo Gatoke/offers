@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 class EventStoreConfiguration {
 
     @Bean
-    EventClassResolver eventTypeResolver() {
+    EventClassResolver eventClassResolver() {
         return new EventClassResolver(eventType -> EventType.valueOf(eventType).getTarget());
     }
 }
