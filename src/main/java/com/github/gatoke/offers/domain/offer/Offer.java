@@ -4,6 +4,7 @@ import com.github.gatoke.offers.domain.offer.event.*;
 import com.github.gatoke.offers.domain.offer.exception.InvalidOfferStatusStateException;
 import com.github.gatoke.offers.domain.offer.vo.OfferId;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
+import com.github.gatoke.offers.domain.offer.vo.OfferType;
 import com.github.gatoke.offers.domain.shared.Aggregate;
 import com.github.gatoke.offers.domain.shared.Time;
 import com.github.gatoke.offers.domain.user.vo.UserId;
@@ -23,6 +24,7 @@ public class Offer extends Aggregate {
 
     private OfferId id;
     private UserId userId;
+    private OfferType offerType;
     private String title;
     private String content;
     private OfferStatus status;
@@ -30,10 +32,12 @@ public class Offer extends Aggregate {
 
     private Offer(final OfferId offerId,
                   final UserId userId,
+                  final OfferType offerType,
                   final String title,
                   final String content) {
         this.id = offerId;
         this.userId = userId;
+        this.offerType = offerType;
         this.title = title;
         this.content = content;
         this.status = PENDING;
@@ -41,8 +45,12 @@ public class Offer extends Aggregate {
         registerEvent(new OfferCreatedEvent(this));
     }
 
-    public static Offer create(final OfferId offerId, final UserId userId, final String title, final String content) {
-        return new Offer(offerId, userId, title, content);
+    public static Offer create(final OfferId offerId,
+                               final UserId userId,
+                               final OfferType offerType,
+                               final String title,
+                               final String content) {
+        return new Offer(offerId, userId, offerType, title, content);
     }
 
     public void accept() {

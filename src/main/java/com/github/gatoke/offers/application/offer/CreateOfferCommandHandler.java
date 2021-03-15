@@ -28,6 +28,7 @@ class CreateOfferCommandHandler implements CommandHandler<CreateOfferCommand> {
                 Offer.create(
                         command.getOfferId(),
                         command.getUserId(),
+                        command.getOfferType(),
                         command.getTitle(),
                         command.getContent())
         );

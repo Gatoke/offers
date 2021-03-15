@@ -22,7 +22,7 @@ class CreateOfferCommandHandlerTest extends Specification {
 
         when:
         def result = commandHandler.execute(
-                new CreateOfferCommand(1234L, 'iPhone7', 'Selling iPhone 7 64GB, good quality')
+                new CreateOfferCommand(1234L, 'iPhone7', 'Selling iPhone 7 64GB, good quality', 'SELL')
         )
 
         then:

@@ -2,6 +2,7 @@ package com.github.gatoke.offers.port.adapter.persistence.offer;
 
 import com.github.gatoke.offers.domain.offer.event.OfferCreatedEvent;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
+import com.github.gatoke.offers.domain.offer.vo.OfferType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,9 @@ public class OfferReadModel {
 
     private long userId;
 
+    @Enumerated(STRING)
+    private OfferType offerType;
+
     private String title;
 
     private String content;
@@ -41,6 +45,7 @@ public class OfferReadModel {
         final OfferReadModel offerReadModel = new OfferReadModel();
         offerReadModel.id = offer.getOfferId();
         offerReadModel.userId = offer.getUserId();
+        offerReadModel.offerType = offer.getOfferType();
         offerReadModel.title = offer.getTitle();
         offerReadModel.content = offer.getContent();
         offerReadModel.status = offer.getStatus();

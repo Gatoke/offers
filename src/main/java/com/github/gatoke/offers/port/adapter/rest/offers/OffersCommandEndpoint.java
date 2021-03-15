@@ -59,8 +59,11 @@ class OffersCommandEndpoint {
         @NotBlank
         private String content;
 
+        @NotBlank
+        private String offerType;
+
         CreateOfferCommand toCommand() {
-            return new CreateOfferCommand(userId, title, content);
+            return new CreateOfferCommand(userId, title, content, offerType);
         }
     }
 

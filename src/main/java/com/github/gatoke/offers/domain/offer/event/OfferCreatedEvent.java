@@ -2,6 +2,7 @@ package com.github.gatoke.offers.domain.offer.event;
 
 import com.github.gatoke.offers.domain.offer.Offer;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
+import com.github.gatoke.offers.domain.offer.vo.OfferType;
 import com.github.gatoke.offers.domain.shared.DomainEvent;
 import com.github.gatoke.offers.domain.shared.EventType;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class OfferCreatedEvent implements DomainEvent {
 
     private UUID offerId;
     private long userId;
+    private OfferType offerType;
     private String title;
     private String content;
     private OfferStatus status;
@@ -28,6 +30,7 @@ public class OfferCreatedEvent implements DomainEvent {
     public OfferCreatedEvent(final Offer offer) {
         this.offerId = offer.getId().getValue();
         this.userId = offer.getUserId().getValue();
+        this.offerType = offer.getOfferType();
         this.title = offer.getTitle();
         this.content = offer.getContent();
         this.status = offer.getStatus();
