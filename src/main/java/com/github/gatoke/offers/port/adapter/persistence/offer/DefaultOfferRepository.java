@@ -3,13 +3,13 @@ package com.github.gatoke.offers.port.adapter.persistence.offer;
 import com.github.gatoke.offers.domain.offer.Offer;
 import com.github.gatoke.offers.domain.offer.OfferRepository;
 import com.github.gatoke.offers.domain.offer.exception.OfferNotFoundException;
+import com.github.gatoke.offers.domain.offer.vo.OfferId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.github.gatoke.offers.domain.offer.vo.OfferStatus.PUBLISHED;
 import static java.util.stream.Collectors.toList;
@@ -28,8 +28,8 @@ public class DefaultOfferRepository implements OfferRepository {
     }
 
     @Override
-    public Offer findOrFail(final UUID offerId) {
-        final Optional<PersistableOffer> offerOptional = repository.findById(offerId);
+    public Offer findOrFail(final OfferId offerId) {
+        final Optional<PersistableOffer> offerOptional = repository.findById(offerId.getValue());
         return offerOptional.map(PersistableOffer::toDomainObject)
                 .orElseThrow(() -> new OfferNotFoundException(offerId));
     }
