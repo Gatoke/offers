@@ -22,7 +22,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 public class Offer extends Aggregate {
 
-    private OfferId id;
+    private OfferId offerId;
     private UserId userId;
     private OfferType offerType;
     private String title;
@@ -35,7 +35,7 @@ public class Offer extends Aggregate {
                   final OfferType offerType,
                   final String title,
                   final String content) {
-        this.id = offerId;
+        this.offerId = offerId;
         this.userId = userId;
         this.offerType = offerType;
         this.title = title;
@@ -55,43 +55,43 @@ public class Offer extends Aggregate {
 
     public void accept() {
         if (PENDING != this.status) {
-            throw new InvalidOfferStatusStateException(this.id, this.status);
+            throw new InvalidOfferStatusStateException(this.offerId, this.status);
         }
         this.status = ACCEPTED;
-        registerEvent(new OfferAcceptedEvent(this.id, this.status));
+        registerEvent(new OfferAcceptedEvent(this.offerId, this.status));
     }
 
     public void reject(final String reason) {
         if (PENDING != this.status) {
-            throw new InvalidOfferStatusStateException(this.id, this.status);
+            throw new InvalidOfferStatusStateException(this.offerId, this.status);
         }
         this.status = REJECTED;
-        registerEvent(new OfferRejectedEvent(this.id, this.status, reason));
+        registerEvent(new OfferRejectedEvent(this.offerId, this.status, reason));
     }
 
     public void publish() {
         if (REJECTED == this.status) {
-            throw new InvalidOfferStatusStateException(this.id, this.status);
+            throw new InvalidOfferStatusStateException(this.offerId, this.status);
         }
         this.status = OfferStatus.PUBLISHED;
-        registerEvent(new OfferPublishedEvent(this.id, this.status));
+        registerEvent(new OfferPublishedEvent(this.offerId, this.status));
     }
 
     public void finish() {
         this.status = FINISHED;
-        registerEvent(new OfferFinishedEvent(this.id, this.status));
+        registerEvent(new OfferFinishedEvent(this.offerId, this.status));
     }
 
     public void delete() {
         this.status = DELETED;
-        registerEvent(new OfferDeletedEvent(this.id, this.status));
+        registerEvent(new OfferDeletedEvent(this.offerId, this.status));
     }
 
     public void expire() {
         if (PUBLISHED != this.status) {
-            throw new InvalidOfferStatusStateException(this.id, this.status);
+            throw new InvalidOfferStatusStateException(this.offerId, this.status);
         }
         this.status = EXPIRED;
-        registerEvent(new OfferExpiredEvent(this.id, this.status));
+        registerEvent(new OfferExpiredEvent(this.offerId, this.status));
     }
 }

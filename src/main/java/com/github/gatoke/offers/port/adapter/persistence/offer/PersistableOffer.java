@@ -36,7 +36,7 @@ class PersistableOffer {
 
     static PersistableOffer of(final Offer offer) {
         final PersistableOffer persistableOffer = new PersistableOffer();
-        persistableOffer.id = offer.getId().getValue();
+        persistableOffer.id = offer.getOfferId().getValue();
         persistableOffer.userId = offer.getUserId().getValue();
         persistableOffer.offerType = offer.getOfferType();
         persistableOffer.title = offer.getTitle();
@@ -48,7 +48,7 @@ class PersistableOffer {
 
     Offer toDomainObject() {
         return Offer.builder()
-                .id(OfferId.of(this.id))
+                .offerId(OfferId.of(this.id))
                 .userId(UserId.of(this.userId))
                 .offerType(this.offerType)
                 .title(this.title)
