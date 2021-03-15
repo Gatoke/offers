@@ -1,8 +1,8 @@
 package com.github.gatoke.offers.domain.offer;
 
 import com.github.gatoke.offers.domain.offer.vo.OfferId;
+import com.github.gatoke.offers.domain.shared.Time;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface OfferRepository {
@@ -11,5 +11,5 @@ public interface OfferRepository {
 
     Offer findOrFail(OfferId offerId);
 
-    List<Offer> findPublishedOffersCreatedBefore(OffsetDateTime dateTime);
+    List<Offer> findPublishedOffersCreatedBefore(Time time);
 }

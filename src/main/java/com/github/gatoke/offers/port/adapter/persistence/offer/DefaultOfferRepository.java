@@ -4,10 +4,10 @@ import com.github.gatoke.offers.domain.offer.Offer;
 import com.github.gatoke.offers.domain.offer.OfferRepository;
 import com.github.gatoke.offers.domain.offer.exception.OfferNotFoundException;
 import com.github.gatoke.offers.domain.offer.vo.OfferId;
+import com.github.gatoke.offers.domain.shared.Time;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,9 +35,9 @@ public class DefaultOfferRepository implements OfferRepository {
     }
 
     @Override
-    public List<Offer> findPublishedOffersCreatedBefore(final OffsetDateTime dateTime) {
+    public List<Offer> findPublishedOffersCreatedBefore(final Time time) {
         final List<PersistableOffer> persistableOffers =
-                repository.findAllByCreatedAtBeforeAndStatusEquals(dateTime, PUBLISHED);
+                repository.findAllByCreatedAtBeforeAndStatusEquals(time.getValue(), PUBLISHED);
         return persistableOffers.stream()
                 .map(PersistableOffer::toDomainObject)
                 .collect(toList());

@@ -5,11 +5,10 @@ import com.github.gatoke.offers.domain.offer.Offer
 import com.github.gatoke.offers.domain.offer.OfferRepository
 import com.github.gatoke.offers.domain.offer.vo.OfferId
 import com.github.gatoke.offers.domain.shared.EventType
+import com.github.gatoke.offers.domain.shared.Time
 import com.github.gatoke.offers.domain.user.UserRepository
 import com.github.gatoke.offers.domain.user.vo.UserId
 import spock.lang.Specification
-
-import java.time.OffsetDateTime
 
 class CreateOfferCommandHandlerTest extends Specification {
 
@@ -48,7 +47,7 @@ class CreateOfferCommandHandlerTest extends Specification {
         }
 
         @Override
-        List<Offer> findPublishedOffersCreatedBefore(OffsetDateTime dateTime) {
+        List<Offer> findPublishedOffersCreatedBefore(Time dateTime) {
             return null
         }
     }

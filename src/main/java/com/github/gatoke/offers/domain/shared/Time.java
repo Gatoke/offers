@@ -25,6 +25,13 @@ public class Time {
         return new Time(OffsetDateTime.now(CLOCK));
     }
 
+    public static Time daysAgo(final long daysAgo) {
+        return new Time(OffsetDateTime
+                .now(CLOCK)
+                .minusDays(daysAgo)
+        );
+    }
+
     public static Time of(final OffsetDateTime offsetDateTime) {
         return new Time(offsetDateTime);
     }
