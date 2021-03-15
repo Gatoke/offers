@@ -28,7 +28,7 @@ class CreateOfferCommandHandlerTest extends Specification {
         then:
         result.size() == 1
         and:
-        result.first().type == EventType.OFFER_CREATED
+        result.first().eventType == EventType.OFFER_CREATED
     }
 
     private class TestOfferRepository implements OfferRepository {

@@ -15,7 +15,7 @@ import static com.github.gatoke.offers.domain.shared.EventType.OFFER_ACCEPTED;
 @NoArgsConstructor
 public class OfferAcceptedEvent implements DomainEvent {
 
-    private final EventType type = OFFER_ACCEPTED;
+    private final EventType eventType = OFFER_ACCEPTED;
 
     private UUID offerId;
     private OfferStatus offerStatus;

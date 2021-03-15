@@ -15,7 +15,7 @@ import static com.github.gatoke.offers.domain.shared.EventType.OFFER_REJECTED;
 @NoArgsConstructor
 public class OfferRejectedEvent implements DomainEvent {
 
-    private final EventType type = OFFER_REJECTED;
+    private final EventType eventType = OFFER_REJECTED;
 
     private UUID offerId;
     private OfferStatus offerStatus;

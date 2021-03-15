@@ -14,7 +14,7 @@ import static com.github.gatoke.offers.domain.shared.EventType.USER_REGISTERED;
 @NoArgsConstructor
 public class UserRegisteredEvent implements DomainEvent {
 
-    private final EventType type = USER_REGISTERED;
+    private final EventType eventType = USER_REGISTERED;
 
     private long id;
     private String firstName;

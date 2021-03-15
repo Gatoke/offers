@@ -17,7 +17,7 @@ import static com.github.gatoke.offers.domain.shared.EventType.OFFER_CREATED;
 @NoArgsConstructor
 public class OfferCreatedEvent implements DomainEvent {
 
-    private final EventType type = OFFER_CREATED;
+    private final EventType eventType = OFFER_CREATED;
 
     private UUID offerId;
     private long userId;

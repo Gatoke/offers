@@ -20,7 +20,7 @@ class StoreAndForwardEventPublisher implements EventPublisher {
     @Override
     @Transactional(propagation = MANDATORY)
     public void publish(final DomainEvent event) {
-        eventStore.append(event, event.getType().toString());
+        eventStore.append(event, event.getEventType().toString());
     }
 
     @Scheduled(fixedDelayString = "PT1S")

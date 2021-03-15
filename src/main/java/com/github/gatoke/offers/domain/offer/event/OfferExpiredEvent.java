@@ -15,7 +15,7 @@ import static com.github.gatoke.offers.domain.shared.EventType.OFFER_EXPIRED;
 @NoArgsConstructor
 public class OfferExpiredEvent implements DomainEvent {
 
-    private final EventType type = OFFER_EXPIRED;
+    private final EventType eventType = OFFER_EXPIRED;
 
     private UUID offerId;
     private OfferStatus offerStatus;

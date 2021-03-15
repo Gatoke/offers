@@ -15,7 +15,7 @@ import static com.github.gatoke.offers.domain.shared.EventType.OFFER_DELETED;
 @NoArgsConstructor
 public class OfferDeletedEvent implements DomainEvent {
 
-    private final EventType type = OFFER_DELETED;
+    private final EventType eventType = OFFER_DELETED;
 
     private UUID offerId;
     private OfferStatus offerStatus;

@@ -24,7 +24,7 @@ class RegisterUserCommandHandlerTest extends Specification {
         then:
         result.size() == 1
         and:
-        result.first().type == EventType.USER_REGISTERED
+        result.first().eventType == EventType.USER_REGISTERED
     }
 
 
