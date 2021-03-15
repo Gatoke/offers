@@ -23,6 +23,10 @@ public class OfferId {
         return new OfferId(id);
     }
 
+    public static OfferId of(final String id) {
+        return new OfferId(UUID.fromString(id));
+    }
+
     public UUID getValue() {
         return this.id;
     }

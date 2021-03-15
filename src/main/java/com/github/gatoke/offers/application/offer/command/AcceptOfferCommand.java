@@ -1,16 +1,15 @@
 package com.github.gatoke.offers.application.offer.command;
 
 import com.github.gatoke.offers.application.shared.Command;
+import com.github.gatoke.offers.domain.offer.vo.OfferId;
 import lombok.Getter;
-
-import java.util.UUID;
 
 @Getter
 public class AcceptOfferCommand implements Command {
 
-    private final UUID offerId;
+    private final OfferId offerId;
 
     public AcceptOfferCommand(final String offerId) {
-        this.offerId = UUID.fromString(offerId);
+        this.offerId = OfferId.of(offerId);
     }
 }
