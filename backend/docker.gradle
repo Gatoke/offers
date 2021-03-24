@@ -1,0 +1,33 @@
+task createImageName {
+    def details = versionDetails()
+    def lastTag = details.lastTag
+    def lastTagDistance = details.commitDistance
+    def branch = details.branchName
+    def commitHash = details.gitHash
+
+    if (lastTagDistance > 0) {
+
+        println "Warning! Untagged commits: ${lastTagDistance}"
+
+        if (isMasterBranch(branch)) {
+            println "Cannot build branch: ${branch}. Please, tag commits first."
+            return
+        }
+    }
+
+    if (branch == null) {
+        return
+    }
+
+    if (isMasterBranch(branch)) {
+        jib.to.image = "registry.hub.docker.com/gatoke/${rootProject.name}:${lastTag}"
+    } else {
+        jib.to.image = "registry.hub.docker.com/gatoke/${rootProject.name}:${lastTag}-${commitHash}"
+    }
+}
+
+tasks.jib.dependsOn(createImageName)
+
+static def isMasterBranch(branch) {
+    return branch == 'master' || branch == 'main'
+}

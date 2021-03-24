@@ -1,56 +1,31 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'com.google.cloud.tools.jib' version '2.7.1'
-    id 'com.palantir.git-version' version '0.12.3'
-    id 'java'
-    id 'groovy'
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id "io.freefair.lombok" version "5.3.0"
 }
 
-apply from: './gradle/docker.gradle'
+subprojects {
 
-group = 'com.github.gatoke'
-sourceCompatibility = '11'
+    apply plugin: 'java'
+    apply plugin: 'io.freefair.lombok'
+    apply plugin: 'io.spring.dependency-management'
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+    group = 'com.github.gatoke'
+    sourceCompatibility = '11'
+
+    repositories {
+        mavenCentral()
     }
-}
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.liquibase:liquibase-core"
-
-    // LOMBOK
-    compileOnly "org.projectlombok:lombok"
-    annotationProcessor "org.projectlombok:lombok"
-
-    // DATABASE
-    runtimeOnly 'org.postgresql:postgresql'
-    runtimeOnly "com.h2database:h2"
-
-    // SCHEDULER LOCK
-    implementation "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
-    implementation "net.javacrumbs.shedlock:shedlock-provider-jdbc-template:${shedlockVersion}"
-
-    // SWAGGER
-    implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
-    implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
-
-    // UTILS
-    implementation "org.apache.commons:commons-lang3:${apacheCommonsLangVersion}"
-
-    // TEST
-    testImplementation "org.spockframework:spock-core:${spockVersion}"
-    testImplementation "org.spockframework:spock-spring:${spockVersion}"
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
     }
-    testImplementation("com.tngtech.archunit:archunit:${archUnitVersion}")
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.2.1.RELEASE"
+        }
+    }
 }
