@@ -31,6 +31,8 @@
                 title          VARCHAR(255)                NOT NULL,
                 content        TEXT                        NOT NULL,
                 status         VARCHAR(100)                NOT NULL,
+                currency       VARCHAR(3),
+                price          DECIMAL,
                 created_at     TIMESTAMP WITH TIME ZONE    NOT NULL
             );
 
@@ -41,6 +43,8 @@
                 title               VARCHAR(255)                NOT NULL,
                 content             TEXT                        NOT NULL,
                 status              VARCHAR(100)                NOT NULL,
+                currency            VARCHAR(3),
+                price               DECIMAL,
                 created_at          TIMESTAMP WITH TIME ZONE    NOT NULL,
                 rejected_reason     TEXT
             );

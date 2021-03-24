@@ -4,11 +4,14 @@ import com.github.gatoke.offers.domain.offer.Offer;
 import com.github.gatoke.offers.domain.offer.vo.OfferId;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
 import com.github.gatoke.offers.domain.offer.vo.OfferType;
+import com.github.gatoke.offers.domain.shared.Currency;
+import com.github.gatoke.offers.domain.shared.Money;
 import com.github.gatoke.offers.domain.shared.Time;
 import com.github.gatoke.offers.domain.user.vo.UserId;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -32,6 +35,11 @@ class PersistableOffer {
     @Enumerated(EnumType.STRING)
     private OfferStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+
+    private BigDecimal price;
+
     private OffsetDateTime createdAt;
 
     static PersistableOffer of(final Offer offer) {
@@ -42,6 +50,8 @@ class PersistableOffer {
         persistableOffer.title = offer.getTitle();
         persistableOffer.content = offer.getContent();
         persistableOffer.status = offer.getStatus();
+        persistableOffer.currency = offer.getPrice().getCurrency();
+        persistableOffer.price = offer.getPrice().getAmount();
         persistableOffer.createdAt = offer.getCreatedAt().getValue();
         return persistableOffer;
     }
@@ -54,6 +64,7 @@ class PersistableOffer {
                 .title(this.title)
                 .content(this.content)
                 .status(this.status)
+                .price(Money.from(this.currency, this.price))
                 .createdAt(Time.of(this.createdAt))
                 .build();
     }

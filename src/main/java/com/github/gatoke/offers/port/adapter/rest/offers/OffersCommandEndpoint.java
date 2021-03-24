@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/offers")
@@ -62,8 +63,12 @@ class OffersCommandEndpoint {
         @NotBlank
         private String offerType;
 
+        private String currency;
+
+        private BigDecimal price;
+
         CreateOfferCommand toCommand() {
-            return new CreateOfferCommand(userId, title, content, offerType);
+            return new CreateOfferCommand(userId, title, content, offerType, currency, price);
         }
     }
 

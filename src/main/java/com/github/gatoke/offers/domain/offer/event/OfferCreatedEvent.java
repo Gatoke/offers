@@ -3,11 +3,13 @@ package com.github.gatoke.offers.domain.offer.event;
 import com.github.gatoke.offers.domain.offer.Offer;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
 import com.github.gatoke.offers.domain.offer.vo.OfferType;
+import com.github.gatoke.offers.domain.shared.Currency;
 import com.github.gatoke.offers.domain.shared.DomainEvent;
 import com.github.gatoke.offers.domain.shared.EventType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -25,6 +27,8 @@ public class OfferCreatedEvent implements DomainEvent {
     private String title;
     private String content;
     private OfferStatus status;
+    private Currency currency;
+    private BigDecimal price;
     private OffsetDateTime createdAt;
 
     public OfferCreatedEvent(final Offer offer) {
@@ -34,6 +38,8 @@ public class OfferCreatedEvent implements DomainEvent {
         this.title = offer.getTitle();
         this.content = offer.getContent();
         this.status = offer.getStatus();
+        this.currency = offer.getPrice().getCurrency();
+        this.price = offer.getPrice().getAmount();
         this.createdAt = offer.getCreatedAt().getValue();
     }
 }

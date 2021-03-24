@@ -6,6 +6,7 @@ import com.github.gatoke.offers.domain.offer.vo.OfferId;
 import com.github.gatoke.offers.domain.offer.vo.OfferStatus;
 import com.github.gatoke.offers.domain.offer.vo.OfferType;
 import com.github.gatoke.offers.domain.shared.Aggregate;
+import com.github.gatoke.offers.domain.shared.Money;
 import com.github.gatoke.offers.domain.shared.Time;
 import com.github.gatoke.offers.domain.user.vo.UserId;
 import lombok.AllArgsConstructor;
@@ -28,19 +29,22 @@ public class Offer extends Aggregate {
     private String title;
     private String content;
     private OfferStatus status;
+    private Money price;
     private Time createdAt;
 
     private Offer(final OfferId offerId,
                   final UserId userId,
                   final OfferType offerType,
                   final String title,
-                  final String content) {
+                  final String content,
+                  final Money price) {
         this.offerId = offerId;
         this.userId = userId;
         this.offerType = offerType;
         this.title = title;
         this.content = content;
         this.status = PENDING;
+        this.price = price;
         this.createdAt = Time.now();
         registerEvent(new OfferCreatedEvent(this));
     }
@@ -49,8 +53,9 @@ public class Offer extends Aggregate {
                                final UserId userId,
                                final OfferType offerType,
                                final String title,
-                               final String content) {
-        return new Offer(offerId, userId, offerType, title, content);
+                               final String content,
+                               final Money price) {
+        return new Offer(offerId, userId, offerType, title, content, price);
     }
 
     public void accept() {

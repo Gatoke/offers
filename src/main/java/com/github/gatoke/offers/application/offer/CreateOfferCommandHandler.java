@@ -30,7 +30,8 @@ class CreateOfferCommandHandler implements CommandHandler<CreateOfferCommand> {
                         command.getUserId(),
                         command.getOfferType(),
                         command.getTitle(),
-                        command.getContent())
+                        command.getContent(),
+                        command.getPrice())
         );
         return offer.pickDomainEvents();
     }
