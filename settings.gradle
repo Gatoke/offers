@@ -1,1 +1,3 @@
 rootProject.name = 'offers'
+include 'event-store'
+include 'backend'

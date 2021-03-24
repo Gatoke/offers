@@ -1,0 +1,7 @@
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.apache.commons:commons-lang3:${apacheCommonsLangVersion}"
+    implementation "javax.validation:validation-api:${javaxValidationVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabingVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonCoreVersion}"
+}
