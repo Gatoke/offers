@@ -21,7 +21,7 @@ public class OfferReadModelRepository {
     private final OfferReadModelJpaRepository repository;
 
     public void create(final OfferCreatedEvent offerCreatedEvent) {
-        final OfferReadModel offerReadModel = OfferReadModel.of(offerCreatedEvent);
+        final OfferReadModel offerReadModel = OfferReadModel.from(offerCreatedEvent);
         repository.save(offerReadModel);
     }
 
@@ -38,7 +38,7 @@ public class OfferReadModelRepository {
         try {
             return repository.findAllWithFilter(
                     userId,
-                    isBlank(offerStatus) ? null : OfferStatus.of(offerStatus),
+                    isBlank(offerStatus) ? null : OfferStatus.from(offerStatus),
                     pageable
             );
         } catch (final NumberFormatException ex) {

@@ -32,7 +32,7 @@ public class Time {
         );
     }
 
-    public static Time of(final OffsetDateTime offsetDateTime) {
+    public static Time from(final OffsetDateTime offsetDateTime) {
         return new Time(offsetDateTime);
     }
 }

@@ -11,7 +11,7 @@ public class RejectOfferCommand implements Command {
     private final String reason;
 
     public RejectOfferCommand(final String offerId, final String reason) {
-        this.offerId = OfferId.of(offerId);
+        this.offerId = OfferId.from(offerId);
         this.reason = reason;
     }
 }

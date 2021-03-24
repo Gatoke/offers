@@ -9,7 +9,7 @@ class EmailTest extends Specification {
 
     Should 'create Email'() {
         when: 'Email is created'
-        def result = Email.of(givenEmail)
+        def result = Email.from(givenEmail)
 
         then: 'No exception is thrown'
         noExceptionThrown()
@@ -25,7 +25,7 @@ class EmailTest extends Specification {
 
     Should 'fail on invalid Email'() {
         when: 'Email is created with invalid value'
-        Email.of(givenEmail)
+        Email.from(givenEmail)
 
         then: 'The exception is thrown'
         thrown(expectedException)
@@ -40,8 +40,8 @@ class EmailTest extends Specification {
 
     Should 'test equals and hashCode'() {
         when:
-        def e1 = Email.of('jason@gmail.com')
-        def e2 = Email.of('jason@gmail.com')
+        def e1 = Email.from('jason@gmail.com')
+        def e2 = Email.from('jason@gmail.com')
 
         then:
         e1 == e2 && e2 == e1

@@ -48,7 +48,7 @@ public class OfferReadModel {
 
     private String rejectedReason;
 
-    static OfferReadModel of(final OfferCreatedEvent offer) {
+    static OfferReadModel from(final OfferCreatedEvent offer) {
         final OfferReadModel offerReadModel = new OfferReadModel();
         offerReadModel.id = offer.getOfferId();
         offerReadModel.userId = offer.getUserId();

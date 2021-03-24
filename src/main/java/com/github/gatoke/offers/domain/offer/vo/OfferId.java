@@ -19,11 +19,11 @@ public class OfferId {
         return new OfferId(UUID.randomUUID());
     }
 
-    public static OfferId of(final UUID id) {
+    public static OfferId from(final UUID id) {
         return new OfferId(id);
     }
 
-    public static OfferId of(final String id) {
+    public static OfferId from(final String id) {
         return new OfferId(UUID.fromString(id));
     }
 

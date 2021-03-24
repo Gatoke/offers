@@ -14,11 +14,11 @@ public enum OfferStatus {
     EXPIRED,
     DELETED;
 
-    public static OfferStatus of(final String status) {
+    public static OfferStatus from(final String status) {
         return Arrays.stream(values())
-                     .filter(offerStatus -> status != null && offerStatus.toString()
-                                                                         .equalsIgnoreCase(status.replace(" ", "")))
-                     .findFirst()
-                     .orElseThrow(() -> new UnknownOfferStatusException(status));
+                .filter(offerStatus -> status != null && offerStatus.toString()
+                        .equalsIgnoreCase(status.replace(" ", "")))
+                .findFirst()
+                .orElseThrow(() -> new UnknownOfferStatusException(status));
     }
 }

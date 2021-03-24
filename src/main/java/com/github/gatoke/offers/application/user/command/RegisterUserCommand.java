@@ -14,8 +14,8 @@ public class RegisterUserCommand implements Command {
     private final Email email;
 
     public RegisterUserCommand(final long userId, final String firstName, final String lastName, final String email) {
-        this.userId = UserId.of(userId);
-        this.name = Name.of(firstName, lastName);
-        this.email = Email.of(email);
+        this.userId = UserId.from(userId);
+        this.name = Name.from(firstName, lastName);
+        this.email = Email.from(email);
     }
 }

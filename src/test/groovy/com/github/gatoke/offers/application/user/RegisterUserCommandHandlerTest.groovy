@@ -14,7 +14,7 @@ class RegisterUserCommandHandlerTest extends Specification {
         def userRepositoryMock = new TestUserRepository()
         def commandHandler = new RegisterUserCommandHandler(userRepositoryMock)
         and:
-        userRepositoryMock.exists(UserId.of(1234L)) >> false
+        userRepositoryMock.exists(UserId.from(1234L)) >> false
 
         when:
         def result = commandHandler.execute(

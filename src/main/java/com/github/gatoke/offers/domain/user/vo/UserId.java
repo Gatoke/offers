@@ -16,7 +16,7 @@ public class UserId {
 
     private long id;
 
-    public static UserId of(final long id) {
+    public static UserId from(final long id) {
         if (id <= 0) {
             throw new InvalidUserIdException(format("User id: %d cannot be equal or less than 0!", id));
         }

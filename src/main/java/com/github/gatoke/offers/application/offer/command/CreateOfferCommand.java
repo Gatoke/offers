@@ -27,10 +27,10 @@ public class CreateOfferCommand implements Command {
                               final String currency,
                               final BigDecimal price) {
         this.offerId = OfferId.newId();
-        this.userId = UserId.of(userId);
+        this.userId = UserId.from(userId);
         this.title = title;
         this.content = content;
-        this.offerType = OfferType.of(offerType);
+        this.offerType = OfferType.from(offerType);
         this.price = Money.from(Currency.from(currency), price);
     }
 }

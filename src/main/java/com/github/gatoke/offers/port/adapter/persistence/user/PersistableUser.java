@@ -29,7 +29,7 @@ class PersistableUser {
 
     private OffsetDateTime registeredAt;
 
-    static PersistableUser of(final User user) {
+    static PersistableUser from(final User user) {
         final PersistableUser persistableUser = new PersistableUser();
         persistableUser.id = user.getId().getValue();
         persistableUser.firstName = user.getName().getFirstName();
@@ -41,10 +41,10 @@ class PersistableUser {
 
     User toDomainObject() {
         return User.builder()
-                .id(UserId.of(this.id))
-                .name(Name.of(this.firstName, this.lastName))
-                .email(Email.of(this.email))
-                .registeredAt(Time.of(registeredAt))
+                .id(UserId.from(this.id))
+                .name(Name.from(this.firstName, this.lastName))
+                .email(Email.from(this.email))
+                .registeredAt(Time.from(registeredAt))
                 .build();
     }
 }

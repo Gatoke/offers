@@ -20,7 +20,7 @@ public class Name {
     private String firstName;
     private String lastName;
 
-    public static Name of(final String firstName, final String lastName) {
+    public static Name from(final String firstName, final String lastName) {
         if (firstName == null || withoutWhitespaces(firstName).length() < MINIMUM_LENGTH) {
             throw new InvalidNameException(format("First name: %s should have minimum length of: %d non-whitespace characters.",
                     firstName, MINIMUM_LENGTH));

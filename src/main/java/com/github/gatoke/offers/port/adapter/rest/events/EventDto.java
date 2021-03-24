@@ -16,7 +16,7 @@ public class EventDto {
     private final OffsetDateTime occurredOn;
     private final Object payload;
 
-    public static EventDto of(final StoredEvent storedEvent) {
+    public static EventDto from(final StoredEvent storedEvent) {
         return EventDto.builder()
                 .id(storedEvent.getId())
                 .type(storedEvent.getType())

@@ -27,7 +27,7 @@ public class Email {
             "[0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x0" +
             "8\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])";
 
-    public static Email of(final String email) {
+    public static Email from(final String email) {
         if (email == null || !matches(PATTERN, email)) {
             throw new InvalidEmailException(email);
         }

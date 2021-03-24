@@ -14,7 +14,7 @@ public class DefaultUserRepository implements UserRepository {
 
     @Override
     public User save(final User user) {
-        final PersistableUser persistableUser = PersistableUser.of(user);
+        final PersistableUser persistableUser = PersistableUser.from(user);
         repository.save(persistableUser);
         return user;
     }

@@ -22,7 +22,7 @@ public class DefaultOfferRepository implements OfferRepository {
 
     @Override
     public Offer save(final Offer offer) {
-        final PersistableOffer persistableOffer = PersistableOffer.of(offer);
+        final PersistableOffer persistableOffer = PersistableOffer.from(offer);
         repository.save(persistableOffer);
         return offer;
     }

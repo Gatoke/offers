@@ -9,7 +9,7 @@ class NameTest extends Specification {
 
     Should 'create Name'() {
         when: 'Name is created'
-        def result = Name.of(givenFirstName, givenLastName)
+        def result = Name.from(givenFirstName, givenLastName)
 
         then: 'No exception is thrown'
         noExceptionThrown()
@@ -28,7 +28,7 @@ class NameTest extends Specification {
 
     Should 'fail on invalid Name'() {
         when: 'Name is created with invalid value'
-        Name.of(givenFirstName, givenLastName)
+        Name.from(givenFirstName, givenLastName)
         then: 'The exception is thrown'
         thrown(expectedException)
 
@@ -43,8 +43,8 @@ class NameTest extends Specification {
 
     Should 'test equals and hashCode'() {
         when:
-        def n1 = Name.of('Jan', 'Kowalski')
-        def n2 = Name.of('Jan', 'Kowalski')
+        def n1 = Name.from('Jan', 'Kowalski')
+        def n2 = Name.from('Jan', 'Kowalski')
 
         then:
         n1 == n2 && n2 == n1

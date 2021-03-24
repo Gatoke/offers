@@ -2,13 +2,14 @@ package com.github.gatoke.offers.domain.offer.vo
 
 import com.github.gatoke.offers.domain.offer.exception.UnknownOfferStatusException
 import spock.lang.Specification
+
 import java.lang.Void as Should
 
 class OfferStatusTest extends Specification {
 
     Should 'create OfferStatus'() {
         expect:
-        OfferStatus.of(givenStatus)
+        OfferStatus.from(givenStatus)
 
         where:
         givenStatus       | expectedResult
@@ -20,7 +21,7 @@ class OfferStatusTest extends Specification {
 
     Should 'fail on invalid OfferStatus'() {
         when: 'OfferStatus is created with invalid value'
-        OfferStatus.of(givenStatus)
+        OfferStatus.from(givenStatus)
 
         then: 'The exception is thrown'
         thrown(expectedException)

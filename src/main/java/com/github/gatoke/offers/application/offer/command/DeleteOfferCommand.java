@@ -10,6 +10,6 @@ public class DeleteOfferCommand implements Command {
     private final OfferId offerId;
 
     public DeleteOfferCommand(final String offerId) {
-        this.offerId = OfferId.of(offerId);
+        this.offerId = OfferId.from(offerId);
     }
 }

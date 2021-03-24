@@ -12,7 +12,7 @@ public class PublishOfferCommand implements Command {
     private final OfferId offerId;
 
     public PublishOfferCommand(final UUID offerId) {
-        this.offerId = OfferId.of(offerId);
+        this.offerId = OfferId.from(offerId);
     }
 
 }

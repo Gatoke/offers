@@ -18,7 +18,7 @@ class CreateOfferCommandHandlerTest extends Specification {
         def userRepository = Mock(UserRepository)
         def commandHandler = new CreateOfferCommandHandler(offerRepository, userRepository)
         and:
-        userRepository.doesNotExist(UserId.of(1234L)) >> false
+        userRepository.doesNotExist(UserId.from(1234L)) >> false
 
         when:
         def result = commandHandler.execute(

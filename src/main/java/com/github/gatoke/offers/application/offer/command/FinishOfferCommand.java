@@ -12,6 +12,6 @@ public class FinishOfferCommand implements Command {
     private final OfferId offerId;
 
     public FinishOfferCommand(final UUID offerId) {
-        this.offerId = OfferId.of(offerId);
+        this.offerId = OfferId.from(offerId);
     }
 }

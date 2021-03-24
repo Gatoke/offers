@@ -42,7 +42,7 @@ class PersistableOffer {
 
     private OffsetDateTime createdAt;
 
-    static PersistableOffer of(final Offer offer) {
+    static PersistableOffer from(final Offer offer) {
         final PersistableOffer persistableOffer = new PersistableOffer();
         persistableOffer.id = offer.getOfferId().getValue();
         persistableOffer.userId = offer.getUserId().getValue();
@@ -58,14 +58,14 @@ class PersistableOffer {
 
     Offer toDomainObject() {
         return Offer.builder()
-                .offerId(OfferId.of(this.id))
-                .userId(UserId.of(this.userId))
+                .offerId(OfferId.from(this.id))
+                .userId(UserId.from(this.userId))
                 .offerType(this.offerType)
                 .title(this.title)
                 .content(this.content)
                 .status(this.status)
                 .price(Money.from(this.currency, this.price))
-                .createdAt(Time.of(this.createdAt))
+                .createdAt(Time.from(this.createdAt))
                 .build();
     }
 }

@@ -8,7 +8,7 @@ public enum OfferType {
 
     BUY, SELL;
 
-    public static OfferType of(final String type) {
+    public static OfferType from(final String type) {
         return stream(values())
                 .filter(offerType -> offerType.toString().equalsIgnoreCase(type))
                 .findFirst()

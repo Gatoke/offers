@@ -10,6 +10,6 @@ public class AcceptOfferCommand implements Command {
     private final OfferId offerId;
 
     public AcceptOfferCommand(final String offerId) {
-        this.offerId = OfferId.of(offerId);
+        this.offerId = OfferId.from(offerId);
     }
 }

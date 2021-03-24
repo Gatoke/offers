@@ -26,7 +26,7 @@ public class UserReadModel {
 
     private long activeOffersCount;
 
-    static UserReadModel of(final UserRegisteredEvent event) {
+    static UserReadModel from(final UserRegisteredEvent event) {
         final UserReadModel userReadModel = new UserReadModel();
         userReadModel.id = event.getId();
         userReadModel.firstName = event.getFirstName();
