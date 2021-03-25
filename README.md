@@ -1,13 +1,19 @@
 # Offers DDD
 
+### This project is for educational & experimental purposes.
+
 Functionality:
 ----
 
-- registering Users + querying Users
-- creating Offers + accept,reject,delete operations + querying Offers
-- REST Events endpoint
-- Store and forward event publisher + retriggering failed events on specific handlers
-- Simple command bus
+- CRUD for Users & Offers but with CQRS concepts
+- Event store decoupled from the core application (Store & Forward Event Publisher)
+
+- Commands and Events:
+    - REST calls register commands on command bus
+    - Command bus manages transaction & publishes domain events returned from command execution
+    - Events are saved by event-store in a database
+    - Handlers for events are found and registered in a database
+    - Scheduler picks event handler processes from event-store and executes them
 
 Architecture:
 ----
@@ -22,8 +28,6 @@ Architecture:
 - The application contains parts of CQRS pattern.
 - Domain models have their counterparts as Read Models for filtering / api exposure purposes.
 - Read Models are synchronized asynchronously when Events are published and forwarded.
-- The application is based on Port/Adapters architecture so it allows a developer to change framework or implementation
-  of repositories without touching domain content.
 
 ----
 
@@ -35,9 +39,3 @@ Architecture:
 > - separate thread pools for scheduled infrastructure/domain tasks
 > - identifier/name for event handlers (prevent fail when rename class/method)
 ----
-todo: clock registry??
-
-License
-----
-
-MIT
