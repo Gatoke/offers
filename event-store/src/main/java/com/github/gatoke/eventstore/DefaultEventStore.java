@@ -30,9 +30,9 @@ class DefaultEventStore implements EventStore {
 
     @Override
     @Transactional(propagation = MANDATORY)
-    public void append(@NotNull final Object event, @NotNull final String eventType) {
+    public void append(@NotNull final Object eventPayload, @NotNull final String eventType) {
         final StoredEvent storedEvent = storedEventRepository.save(
-                new StoredEvent(eventMapper.toString(event), eventType)
+                new StoredEvent(eventMapper.toString(eventPayload), eventType)
         );
 
         final Set<EventHandler> eventHandlers = eventHandlerRegistry.findAllBy(eventType);
