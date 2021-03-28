@@ -17,6 +17,7 @@ class EventDtoMapper {
                 .id(storedEvent.getId())
                 .type(storedEvent.getType())
                 .occurredOn(storedEvent.getOccurredOn())
+                .triggeredBy(storedEvent.getTriggeredBy())
                 .payload(extractPayload(storedEvent))
                 .build();
     }

@@ -77,6 +77,12 @@ class GlobalExceptionHandler {
         return status(CONFLICT).body(ex.getMessage());
     }
 
+    @ExceptionHandler
+    ResponseEntity<String> handleGenericException(final Exception ex) {
+        log.warn(ex.getMessage());
+        return status(INTERNAL_SERVER_ERROR).body(INTERNAL_SERVER_ERROR.getReasonPhrase());
+    }
+
     @Getter
     @RequiredArgsConstructor
     private static class ValidationError {

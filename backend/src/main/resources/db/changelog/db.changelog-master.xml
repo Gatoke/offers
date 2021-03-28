@@ -53,6 +53,7 @@
                 id              UUID                        PRIMARY KEY,
                 type            VARCHAR(50)                 NOT NULL,
                 occurred_on     TIMESTAMP WITH TIME ZONE    NOT NULL,
+                triggered_by    VARCHAR(255)                NOT NULL,
                 payload         TEXT                        NOT NULL
             );
         </sql>

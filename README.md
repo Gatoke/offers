@@ -2,6 +2,8 @@
 
 ### This project is for educational & experimental purposes.
 
+Swagger available on http://localhost:8080/swagger-ui/
+
 Functionality:
 ----
 
