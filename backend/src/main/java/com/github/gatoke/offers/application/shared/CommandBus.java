@@ -18,14 +18,14 @@ public class CommandBus {
 
     private final EventPublisher eventPublisher;
     private final CommandsRegistry commandsRegistry;
-    private final TransactionTemplate transactionTemplate;
+    private final TransactionTemplate commandBusTransactionTemplate;
 
     public void execute(final Command command) {
         final CommandHandler<Command> commandHandler = commandsRegistry.get(command.getClass());
 
         final long start = currentTimeMillis();
         try {
-            transactionTemplate.executeWithoutResult(status -> {
+            commandBusTransactionTemplate.executeWithoutResult(status -> {
                 final List<? extends DomainEvent> resultEvents = commandHandler.execute(command);
                 resultEvents.forEach(eventPublisher::publish);
             });

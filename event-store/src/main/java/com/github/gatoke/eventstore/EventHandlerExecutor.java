@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,7 +41,6 @@ class EventHandlerExecutor {
      * @see EventHandlerProcess
      * @see com.github.gatoke.eventstore.process.EventHandlerProcessStatus
      */
-    @Transactional(propagation = Propagation.NESTED)
     void execute(final EventHandlerProcess process) {
         final EventHandler handler = process.getEventHandler();
 
@@ -60,17 +57,19 @@ class EventHandlerExecutor {
 
             process.success();
         } catch (final NoSuchMethodException ex) {
-            log.warn("Processing event of type: {} and id: {} failed. Reason: No such handler: {} # {}",
-                    handler.getEventClass(),
+            log.warn("Processing event of type: {} and id: {} failed. Reason: No such handler: {}#{}",
+                    process.getEvent().getType(),
                     process.getEvent().getId(),
                     handler.getBeanName(), handler.getMethodName());
             process.hold(format("No such handler: %s # %s", handler.getBeanName(), handler.getMethodName()));
         } catch (final Exception ex) {
-            log.warn("Processing event of type: {} and id: {} failed. Reason: {}",
-                    handler.getEventClass(),
+            log.warn("Processing event of type: {} and id: {} failed in handler: {}#{}. Reason: {}",
+                    process.getEvent().getType(),
                     process.getEvent().getId(),
-                    ex.getMessage());
-            process.failAndScheduleNextAttempt(ex.getMessage());
+                    handler.getBeanName(),
+                    handler.getMethodName(),
+                    ex.getCause().getMessage());
+            process.failAndScheduleNextAttempt(ex.getCause().getMessage());
         }
     }
 

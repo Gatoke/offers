@@ -30,12 +30,15 @@ public class StoredEvent {
 
     private OffsetDateTime occurredOn;
 
+    private String triggeredBy;
+
     private String payload;
 
-    public StoredEvent(final String payload, final String eventType) {
+    public StoredEvent(final String payload, final String eventType, final String triggeredBy) {
         this.id = UUID.randomUUID();
         this.type = eventType;
         this.occurredOn = OffsetDateTime.now(Clock.systemUTC());
+        this.triggeredBy = triggeredBy;
         this.payload = payload;
     }
 }

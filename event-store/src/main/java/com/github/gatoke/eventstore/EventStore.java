@@ -19,7 +19,7 @@ public interface EventStore {
      * @see com.github.gatoke.eventstore.event.StoredEvent
      * @see com.github.gatoke.eventstore.process.EventHandlerProcess
      */
-    void append(@NotNull final Object event, final String eventType);
+    void append(@NotNull final Object event, final String eventType, final String triggeredBy);
 
     /**
      * Executes pending event handler processes.
