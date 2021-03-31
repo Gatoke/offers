@@ -1,0 +1,40 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!-- @formatter:off -->
+
+    <changeSet id="event-store-1" author="gatoke2@gmail.com">
+        <sql>
+            CREATE TABLE event_log (
+            id              UUID                        PRIMARY KEY,
+            sequence        SERIAL                      NOT NULL,
+            type            VARCHAR(50)                 NOT NULL,
+            occurred_on     TIMESTAMP WITH TIME ZONE    NOT NULL,
+            triggered_by    VARCHAR(255)                NOT NULL,
+            payload         TEXT                        NOT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="event-store-2" author="gatoke2@gmail.com">
+        <sql>
+            CREATE TABLE event_handler_process (
+            id                  UUID                        PRIMARY KEY,
+            event_id            UUID                        NOT NULL REFERENCES event_log(id),
+            bean_name           VARCHAR(100)                NOT NULL,
+            method_name         VARCHAR(100)                NOT NULL,
+            status              VARCHAR(30)                 NOT NULL,
+            last_attempt        TIMESTAMP WITH TIME ZONE,
+            next_attempt        TIMESTAMP WITH TIME ZONE,
+            attempts            INT8                        NOT NULL DEFAULT 0,
+            delay_seconds       INT8                        NOT NULL DEFAULT 0,
+            fail_reason         TEXT
+            );
+        </sql>
+    </changeSet>
+
+    <!-- @formatter:on -->
+</databaseChangeLog>

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -25,6 +26,9 @@ public class StoredEvent {
 
     @Id
     private UUID id;
+
+    @Column(columnDefinition = "serial", insertable = false)
+    private Long sequence;
 
     private String type;
 
