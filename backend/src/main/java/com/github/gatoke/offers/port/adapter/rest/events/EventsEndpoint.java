@@ -22,12 +22,13 @@ class EventsEndpoint {
     private final EventDtoMapper mapper;
 
     @GetMapping
-    List<EventDto> getEvents(@RequestParam(required = false) final UUID after) {
+    List<EventDto> getEvents(@RequestParam(required = false) final UUID after,
+                             @RequestParam(required = false, defaultValue = "100") final long limit) {
         final List<StoredEvent> events;
         if (after == null) {
-            events = storedEventRepository.getPageFromBeginning();
+            events = storedEventRepository.getFromBeginning(limit);
         } else {
-            events = storedEventRepository.getPageAfterId(after);
+            events = storedEventRepository.getAfter(after, limit);
         }
         return events.stream().map(mapper::toEventDto).collect(toList());
     }

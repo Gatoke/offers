@@ -1,5 +1,6 @@
 package com.github.gatoke.offers.port.adapter.rest;
 
+import com.github.gatoke.eventstore.event.EventNotFoundException;
 import com.github.gatoke.offers.domain.offer.exception.InvalidOfferStatusStateException;
 import com.github.gatoke.offers.domain.offer.exception.OfferNotFoundException;
 import com.github.gatoke.offers.domain.offer.exception.UnknownOfferStatusException;
@@ -75,6 +76,12 @@ class GlobalExceptionHandler {
     ResponseEntity<String> handleUserAlreadyExistsException(final UserAlreadyExistsException ex) {
         log.debug(ex.getMessage());
         return status(CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler
+    ResponseEntity<String> handleEventNotFoundException(final EventNotFoundException ex) {
+        log.debug(ex.getMessage());
+        return status(NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler

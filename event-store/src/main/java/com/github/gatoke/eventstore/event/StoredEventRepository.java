@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -18,15 +17,14 @@ public class StoredEventRepository {
         return event;
     }
 
-    public List<StoredEvent> getPageFromBeginning() {
-        return repository.findPageFromBeginning();
+    public List<StoredEvent> getFromBeginning(final long limit) {
+        return repository.getFromBeginning(limit);
     }
 
-    public List<StoredEvent> getPageAfterId(final UUID afterId) {
-        final Optional<StoredEvent> eventAfter = repository.findById(afterId);
-        if (eventAfter.isPresent()) {
-            return repository.findFirst100ByOccurredOnAfterOrderByOccurredOnAsc(eventAfter.get().getOccurredOn());
-        }
-        throw new EventNotFoundException(afterId);
+    public List<StoredEvent> getAfter(final UUID eventId, final long limit) {
+        final long sequenceNumber = repository.findSequenceNumber(eventId)
+                .orElseThrow(() -> new EventNotFoundException(eventId));
+
+        return repository.getAfter(sequenceNumber, limit);
     }
 }

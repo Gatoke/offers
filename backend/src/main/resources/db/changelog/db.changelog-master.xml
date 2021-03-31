@@ -4,8 +4,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
+    <include file="/db/changelog/db.changelog-shedlock.xml"/>
+    <include file="/db/changelog/db.changelog-eventstore.xml"/>
+
     <!-- @formatter:off -->
-    <changeSet author="Gatoke" id="1">
+    <changeSet author="gatoke2@gmail.com" id="1">
         <sql>
             CREATE TABLE app_user (
                 id              INT8                        PRIMARY KEY,
@@ -48,49 +51,8 @@
                 created_at          TIMESTAMP WITH TIME ZONE    NOT NULL,
                 rejected_reason     TEXT
             );
-
-            CREATE TABLE event_log (
-                id              UUID                        PRIMARY KEY,
-                type            VARCHAR(50)                 NOT NULL,
-                occurred_on     TIMESTAMP WITH TIME ZONE    NOT NULL,
-                triggered_by    VARCHAR(255)                NOT NULL,
-                payload         TEXT                        NOT NULL
-            );
         </sql>
     </changeSet>
+
     <!-- @formatter:on -->
-
-    <changeSet id="event_handler" author="gatoke">
-        <!-- @formatter:off -->
-        <sql>
-            CREATE TABLE event_handler_process (
-                id                  UUID                        PRIMARY KEY,
-                event_id            UUID                        NOT NULL REFERENCES event_log(id),
-                bean_name           VARCHAR(100)                NOT NULL,
-                method_name         VARCHAR(100)                NOT NULL,
-                status              VARCHAR(30)                 NOT NULL,
-                last_attempt        TIMESTAMP WITH TIME ZONE,
-                next_attempt        TIMESTAMP WITH TIME ZONE,
-                attempts            INT8                        NOT NULL DEFAULT 0,
-                delay_seconds       INT8                        NOT NULL DEFAULT 0,
-                fail_reason         TEXT
-            );
-        </sql>
-        <!-- @formatter:on -->
-    </changeSet>
-
-    <changeSet id="schedlock" author="gatoke">
-        <!-- @formatter:off -->
-        <sql>
-            CREATE TABLE shedlock(
-            name            VARCHAR(64)     NOT NULL,
-            lock_until      TIMESTAMP       NOT NULL,
-            locked_at       TIMESTAMP       NOT NULL,
-            locked_by       VARCHAR(255)    NOT NULL,
-            PRIMARY KEY (name)
-            );
-        </sql>
-        <!-- @formatter:on -->
-    </changeSet>
-
 </databaseChangeLog>

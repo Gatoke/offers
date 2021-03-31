@@ -15,5 +15,5 @@ public class EventDto {
     private final OffsetDateTime occurredOn;
     private final String triggeredBy;
     private final Object payload;
-    
+
 }
